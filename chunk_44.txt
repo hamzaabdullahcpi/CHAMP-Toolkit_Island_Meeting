@@ -1,0 +1,50 @@
+ also needs higher tiers of governments, utilities, property owners, developers, investors and community actors, with continuous dialogue and coordination to maintain momentum
+ and identify key implementation challenges. 
+A dedicated orchestration
+ function
+ 
+is also needed to 
+maintain alignment across the portfolio, bring in relevant actors as implementation needs evolve, resolve bottlenecks, capture learning and sustain momentum toward the shared mission.
+Implement the portfolio as one coherent system
+ of mutually reinforcing
+ intervention, not a set of separate projects.
+ The portfolio should connect governance, finance, procurement, regulation, behaviour and technology so that the combined effect shifts the system, not just individual parts of it.
+ 
+Not every intervention needs to be commercially investible; the portfolio can generate investible pipelines as learning progresses.
+Use implementation to generate evidence that “de-risks” policy and investment and enables scale-up.
+ Track what changes in regulation, costs, technical performance, institutional arrangements, behaviour and business models—not simply whether an individual technology works.
+Illustrative examples
+System Demonstrators
+ 
+provide implementation environments that put investible portfolios into on-ground local testbeds where public, private and civic actors jointly shape the implementation, exchange learnings and
+ adapt as needed. Rather than a project-by-project implementation approach, the demonstrators 
+create a systemic implementation environment 
+around a shared mission and a coordinated portfolio of investments, with continuous orchestration around governance, finance, 
+procurement, infrastructure, regulations, behaviors and technology. 
+Key examples of System Demonstrator implementation are highlighted below: 
+CoAction Lund
+ 
+shows how a city-led system demonstrator can orchestrate a complex implementation ecosystem around a shared mission of climate neutrality by 2030. In Brunnshög, the municipality brought together infrastructure providers, employers, property owners, universities and solution providers to deliver more than 40 coordinated activities across mobility and energy, with funding kept flexible so that resources can shift toward the most promising models as learning emerges. One major “game changer” is 
+EnergyNet
+, a decentralised local electricity network that enables buildings, vehicles and local energy resources to share renewable electricity
+. 
+ 
+By
+ testing 
+EnergyNet on ground
+, CoAction Lund has surfaced regulatory and market barriers around grid codes, data-sharing and local markets, helping inform the adjustments needed for 
+scale and mainstream 
+distributed energy systems
+ in cities facing increasing electrification demands and grid constraints
+. 
+Finally, a shared evaluation plan, based on agreed indicators, 
+tracks
+ both activities and system
+‑
+level outcomes, feeding into regular reflection and learning cycles
+.
+ EnergyNet’s successful 
+demonstration has led to the Viability Fund for Cities identifying its expansion to other cities as a key investment opportunity,  
+ 
+To know more about CoAction Lund, click 
+here

@@ -1,0 +1,50 @@
+Phase
+ the implementation based on system readiness.
+ 
+In contexts with low readiness levels, implementation should focus on 
+diagnostics, convening, mapping and coalition building (e.g., Central Asia Hub)
+. As readiness increases, focus should shift towards investment planning, testbed selection and portfolio development (see Action 4
+ for guidance on these). Full implementation should be financed once the mission is co-owned, the coordination function is in place
+, stakeholders are mobilized, barriers are known and a portfolio is in place. 
+Use clear, accessible language and simplify the methodology where necessary.
+ The Swedish experience showed that even relatively mature cities struggled when system-demonstrator concepts became overly abstract or innovation-heavy. In lower-capacity contexts especially, guidance should focus on practical functions and outputs rather than specialist transition terminology.
+Connect local implementation to national systems from the beginning.
+ Demonstrators are more likely to scale when local evidence can inform national policy, funding programmes, investment priorities and future climate plans. 
+Some 
+System Demonstrators, e.g., in Uganda, have demonstrated that 
+weak national-local institutional connections can constrain scaling even when local demonstration is successful.
+Build in a pathway from implementation to scale
+ from the outset
+.
+ The model is more transferable when it linked from the outset to 
+investment
+, procurement and replication routes
+. These pathways 
+may involve national governments, DFIs, PPFs or 
+international donors, depending on the 
+funding context and portfolio readiness
+. F
+or example, EnergyNet 
+is expected to 
+scale through 
+the Viability Fund, Bristol 
+scaled via
+ the UK Small Sites Aggregator, and Central Asia 
+Hub 
+is expected to scale through project preparation pathways involving 
+Gap Fund, FELICITY II, 
+and financing pathways involving 
+GCF and EIB.
+Enabling conditions
+A political mandate
+ and co-owned decision making between public and private actors. 
+A dedicated coordination function
+ or intermediary capable of holding the implementation environment together
+, capture learnings iteratively and 
+Reliable local data, evidence and 
+a testbed (e.g., a city) so that 
+baseline data and observed barriers could inform implementation.
+ 
+Flexible and sustained funding for implementation and learning, including resources for orchestration and experimentation
+, 
+not only capital expenditure on individual assets. 

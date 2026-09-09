@@ -1,0 +1,77 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,800,900&display=swap');
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'satoshi Fallback';
+  src: local('San Francisco'), local('Segoe UI'), local('Helvetica Neue'), local('Arial');
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+  size-adjust: 100%;
+}
+
+@theme {
+  --font-sans: "Satoshi", "satoshi Fallback", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-heading: "Satoshi", "satoshi Fallback", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, monospace;
+  
+  /* Technical Policy Palette - Precision & Clarity */
+  --color-paper: #F8FAFC; 
+  --color-ink: #0B1121; 
+  --color-ink-muted: #475569; 
+  --color-surface: #FFFFFF;
+  --color-line: #E2E8F0; 
+  
+  --color-accent: #3C4799; 
+  --color-accent-light: #EEF2FF; 
+  
+  --color-success: #15803D; 
+  --color-success-bg: #DCFCE7; 
+  
+  --color-warning: #B45309; 
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: "Satoshi", "satoshi Fallback", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Satoshi", "satoshi Fallback", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  letter-spacing: -0.015em;
+}
+
+/* Base override for sharp, precise borders */
+* {
+  border-color: var(--color-line);
+}
+
+/* Precise scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

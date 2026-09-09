@@ -1,0 +1,50 @@
+reference model for operationalizing multilevel climate governance
+ under CHAMP,
+ showing how different multilevel governance functions have operated together over time, 
+illustrating how Climate City Contracts, intermediary coordination, procurement, financing and implementation ecosystems 
+have
+ function
+ed
+ together operationally over time. 
+It will also include 
+the orchestration logic, including 
+where 
+successes 
+as well as
+ institutional bottlenecks, coordination frictions, implementation constraints and governance trade-offs
+ have emerged
+.
+ Capturing these dynamics will help position the Toolkit as a more operationally realistic and internationally transferable resource, particularly for countries navigating evolving multilevel governance systems under different institutional conditions.
+Outline
+The Swedish Context
+This section will provide contextual background on the 
+mission-oriented 
+nature of Sweden’s 
+journey to multilevel governance
+. This 
+includes
+ a narrative on
+ 
+political, institutional, fiscal and governance conditions that shaped the evolution of Sweden’s multilevel climate governance and implementation ecosystem. 
+The
+ purpose 
+of this section will be
+ to help the CHAMP ecosystem better understand why specific multilevel governance, financing and implementation mechanisms emerged in Sweden, how they evolved over time, and which enabling conditions, institutional capacities and coordination cultures helped shape their development
+. 
+Sweden’s 
+Multilevel Climate Governance Model
+: Key Mechanisms, Successes and Challenges
+This section will include
+ the evolution of the following 
+implementation approaches 
+that could be further developed together with CHAMP partners in different contexts
+: 
+[
+Placeholder: 
+Sweden’s governance mapping
+ diagram
+, including institutional interactions, implementation workflows
+, 
+intermediary functions and financing relationship
+s
+]

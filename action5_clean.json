@@ -1,0 +1,77 @@
+{
+  "id": 5,
+  "title": "Mobilize Finance, Shape Local Markets and Deliver Investment Portfolios",
+  "goal": "This section will include guidance and tools for national, subnational and city governments to mobilize and deploy catalytic funding to test and scale solutions, de-risking mechanisms to support urban climate projects and shape local markets using aggregated procurement.",
+  "unifiedContext": {
+    "whatIsThisAction": "This section will include guidance and tools for national, subnational and city governments to mobilize and deploy catalytic funding to test and scale solutions, de-risking mechanisms to support urban climate projects and shape local markets using aggregated procurement.",
+    "systemsLogic": "Implementing portfolios and pipelines often requires interconnected financing, implementation and market-shaping mechanisms operating together as part of a system. Catalytic and de-risking finance mechanisms can help mobilize investment, while systemic portfolio implementation environments and local climate investment structures and collaborative implementation environments can support coordinated delivery of investments. Procurement complements financing by creating credible demand conditions that allow new solutions to move from demonstrations and small-scale deployment toward wider commercial adoption."
+  },
+  "pathways": [
+    {
+      "title": "5.1. Locally Anchored Multilevel Climate Finance Structures",
+      "overview": "",
+      "whatItIs": "Multilevel climate finance structures can be understood as a range of financing arrangements that help municipalities mobilize and deploy capital for climate and transition investment, in collaboration with other levels of government and the private sector. This could include pooled municipal borrowing facilities, trust funds, special purpose vehicles for projects requiring off-balance sheet financing, blended finance arrangements etc. Their purpose is to create a local mechanism for cities to mobilize and deploy climate finance from diverse sources, including national governments, donors or private financiers.",
+      "whyItIsNeeded": "In many contexts, the challenge in implementing local climate investments is often not a shortage of capital but matching it to the right portfolio. These finance vehicles and mechanisms can help bridge this gap by connecting portfolios with available capital and can take different forms depending on local government capacity, governance and market conditions.",
+      "keyActors": [
+        "City and subnational governments",
+        "National governments and agencies",
+        "Public and national development banks",
+        "Municipal finance institutions",
+        "Commercial banks",
+        "Institutional and private investors",
+        "Donors and philanthropic actors",
+        "Fund or vehicle managers/intermediaries",
+        "Corporates",
+        "Community stakeholders"
+      ],
+      "implementationGuidance": [
+        "Build on the climate investment plan and the portfolio, then match each project to the right local financing structure. Large infrastructure may be placed in SPVs or bond-financed vehicles; smaller neighbourhood or nature-based projects may use trust funds or other pooled local vehicles; catalytic capital, guarantees and concessional support can then sit alongside these structures to reduce risk and crowd in larger pools of finance.",
+        "Arrange the financing structure in a way that the government backs the investment, while banks, institutional investors, corporates or other investors provide the finance and technical assistance and additional de-risking where needed.",
+        "Develop long-term partnerships with donors, governments, DFIs and investors to continually capitalize the investment vehicle/structure based on the risks, returns and investor appetite."
+      ],
+      "illustrativeExamples": [
+        {
+          "title": "Kenya’s County Climate Change Funds (CCCFs)",
+          "excerpt": "Kenya’s County Climate Change Funds (CCCFs) demonstrate how devolved climate finance can enable locally led adaptation while remaining anchored in national policy.",
+          "fullText": "Kenya’s County Climate Change Funds (CCCFs) demonstrate how devolved climate finance can enable locally led adaptation while remaining anchored in national policy. CCCFs were piloted in Isiolo in 2011–12 and later expanded to Garissa, Kitui, Makueni, Wajir and beyond. These funds identify, prioritize and finance local adaptation investments through county planning and budgeting systems, with county and ward committees steering decisions and local knowledge and climate information built into planning and monitoring. They are designed to blend resources from international climate finance, multilateral development banks, the private sector, national government transfers and county own-source budgets, and several counties have legislated commitments of 1–2 per cent of development budgets to capitalise the fund. This domestic commitment helped attract external finance, including seed funding from the UK and Sweden and a proposal to the Green Climate Fund to expand the model. The model is aligned with Kenya’s National Adaptation Plan (NAP), the National Climate Change Action Plan, and the Climate Change Act. The success of pilots helped pave the way for national scale-up – by 2023 all 47 Kenyan counties had CCCFs in place, creating the basis for a new Financing Locally-Led Climate Action Program funded by the World Bank and the governments of Denmark and Sweden, and led by the National Treasury."
+        },
+        {
+          "title": "Milan for Trees Fund",
+          "excerpt": "Milan for Trees Fund is a locally led trust fund managed by the municipality of Milan and is dedicated to tree planting in the city.",
+          "fullText": "Milan for Trees Fund is a locally led trust fund managed by the municipality of Milan and is dedicated to tree planting in the city. The fund is capitalized through a blend of municipal tax revenues, individual contributions and larger corporate donations. The money is held off the municipal balance sheet, and the fund allows tree planting to extend beyond public land. In 2024, 600 citizens and 36 local business participated to raise over EUR 1.3 million to plant over 4700 trees. It is a good example of how a city can lead local multi-stakeholder partnerships, bringing in private capital to fund place-based climate action. The city of Lund in Sweden is also planning to replicate this model to accelerate municipal tree planting, which will not only improve local climatic conditions but also provide additional economic value to businesses through place-based improvements."
+        },
+        {
+          "title": "Bristol Local Funds",
+          "excerpt": "Bristol has developed two key local funds focused on climate and energy, with a strong emphasis at community-level impact...",
+          "fullText": "Bristol has developed two key local funds focused on climate and energy, with a strong emphasis at community-level impact:\n• First is the Bristol Climate Action Investment – developed as part of its Net Zero Investment Co-Innovation Lab, funded by the EU Net Zero Cities – where investments as little as GBP 5 can be made by businesses, residents and communities. By 2025, the fund raised over GBP 500,000 in its first five weeks toward an initial GBP 1 million target. The investments are set up as a five-year loan offering 4.2% interest to finance energy-efficiency and renewable upgrades in council-owned buildings. Click here to know more.\n• Second is the Bristol City Leap Community Energy Fund – a GBP 1.5 million, grant-and-loan facility backed by contributions of GBP 750,000 each by Ameresco and Vattenfall, aimed at community-led energy projects, with any profits recycled back into the fund. This fund aims at reducing the use of fossil fuels and supporting local communities to reduce their energy consumption. Click here to know more."
+        },
+        {
+          "title": "LoCAL Mechanism",
+          "excerpt": "LoCAL is a country-based mechanism spearheaded by the UN Capital Development Fund (UNCDF)...",
+          "fullText": "LoCAL is a country-based mechanism spearheaded by the UN Capital Development Fund (UNCDF) It helps local governments integrate climate adaptation into planning and budgeting through performance-based climate resilience grants and technical and capacity-building support. It channels climate finance to local governments through existing national fiscal transfer systems. In practice, local governments assess risks and needs, prepare adaptation plans, identify and budget priority measures, and implement them through their annual budgeting cycles; performance reviews and audits then inform future allocations. LoCAL is designed to scale in phases, moving from piloting to learning and then to full national roll-out, which makes it a strong example of a multilevel local climate finance structure embedded in national systems. Since 2011, LoCAL has provided USD 8.3 million in grants to 64 local governments, impacting over 5 million people across 12 countries in Asia (Bangladesh, Bhutan, Cambodia, Lao PDR and Nepal), the Pacific (Tuvalu) and Africa (Benin, Ghana, Mali, Mozambique, Niger and Tanzania)."
+        },
+        {
+          "title": "Tamil Nadu Water and Sanitation Pooled Fund",
+          "excerpt": "Tamil Nadu Water and Sanitation Pooled Fund illustrates how a dedicated special purpose vehicle can connect municipal projects with state, national and private finance.",
+          "fullText": "Tamil Nadu Water and Sanitation Pooled Fund illustrates how a dedicated special purpose vehicle can connect municipal projects with state, national and private finance. Established by the Government of Tamil Nadu as a separate trust, the Fund pooled the borrowing needs of 13 small and medium-sized municipalities and issued a single bond to raise long-term capital for water and sanitation investments. Participating municipalities repaid the Fund through project and local revenues, while the state government strengthened the structure through reserve funds and the ability to intercept fiscal transfers if repayments fell short; a USAID partial guarantee provided additional protection to investors. By ring-fencing the financing and repayment arrangements, the SPV spread risk, reduced transaction costs and enabled municipalities that could not issue bonds independently to access capital markets. The national government subsequently embedded this approach in its national Pooled Finance Development Fund, through which the central government supports state-level pooled finance entities with project-preparation assistance and credit enhancement. The case shows how national and state governments can establish an intermediary SPV that aggregates local investment needs and mobilizes private capital while municipalities retain responsibility for project delivery and repayment."
+        },
+        {
+          "title": "Lund’s Green Bond Programme",
+          "excerpt": "Lund’s green bond programme is a strong example of a local climate finance structure because it shows how a city can translate climate priorities into a municipally anchored investment vehicle.",
+          "fullText": "Lund’s green bond programme is a strong example of a local climate finance structure because it shows how a city can translate climate priorities into a municipally anchored investment vehicle. Lund began issuing green bonds in 2017, and by end-2025 had an outstanding green bond volume of USD 450 million. Lund municipality updated its green bonds framework, incorporating elements from the EU Taxonomy for sustainable investments, broadening the range of eligible projects. The framework also sets up how projects are selected, monitored and reported, and is used to connect investment planning with climate and sustainability goals while improving transparency and accountability to investors. The portfolio spans climate-smart infrastructure and buildings across the municipality and its wholly owned housing, parking and water utility companies, with examples such as the Lund tramway and the LKF housing project showing how the bond framework channels finance into a tracked green portfolio of approved projects."
+        }
+      ],
+      "transferability": [
+        "Tailor the financing structure to the local fiscal system, borrowing regulations, tax base and market maturity: where decentralization and private-sector depth are stronger, local trust funds or similar vehicles may work well; where responsibilities are devolved but fiscal space is limited, devolved funds may be a better fit; and in more unitary systems, country- or donor-led funds, like the Viability Fund or LoCAL program, may need to be channelled through existing fiscal transfer mechanisms. In context where local governments have creditworthiness, a green bond framework like Lund could be utilized.",
+        "When setting up a climate investment fund, start with a focused investment portfolio, aligned with national priorities and plans, so that investor confidence improves and external finance could be mobilized.",
+        "Carefully structure SPVs for project financing and implementation. SPVs are legally complex and expensive downscaling to smaller projects requires careful packaging and de-risking for banks and commercial investors to participate.",
+        "Regardless of where the fund gets anchored, enable local planning control while bringing in external capital through multilevel partnerships, so finance supports locally defined and locally led climate priorities."
+      ],
+      "enablingConditions": [
+        "Credible leadership, commitment and capacities at various levels of government to structure and manage the climate investment vehicles, or access to an intermediary manager, such as Bristol’s Net Zero Investment Co-Innovation Lab or Tamil Nadu’s subnational government, to support local governments in setting up and managing such funds.",
+        "Local alignment with national plans, national platforms and coordination with national institutions for long-term sustainability and ownership",
+        "Multilevel partnerships with donors, corporates, individuals, DFIs or national governments to mobilize finance or credible intermediary to hold this mandate, manage these partnerships and channel finance to local investment vehicles."
+      ]
+    }
+  ]
+}
