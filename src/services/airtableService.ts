@@ -85,8 +85,11 @@ export interface HomePagePartnership {
   description: string;
   partner1Name: string;
   partner1LogoUrl: string;
+  partner1Url?: string;
   partner2Name: string;
   partner2LogoUrl: string;
+  partner2Url?: string;
+  learnMoreLabel?: string;
   supportedByLabel: string;
   supportedByName: string;
   supportedByLogoUrl: string;
@@ -111,13 +114,127 @@ export const defaultHomePageContent: HomePageContent = {
     description: "This toolkit is a strategic partnership between CCFLA and Viable Cities. A key goal of this toolkit is to showcase impactful multilevel governance initiatives championed in Sweden.",
     partner1Name: "CCFLA",
     partner1LogoUrl: "https://www.climatepolicyinitiative.org/wp-content/uploads/2020/09/CCFLA-hero.png",
+    partner1Url: "https://citiesclimatefinance.org",
     partner2Name: "Viable Cities",
     partner2LogoUrl: "https://images.squarespace-cdn.com/content/v1/59e86b55aeb625e2140eec1a/1634044375194-3G0ZG1T5HGMGNB2QSEYU/1.+VC_Logotyp_PRIM%C3%84R_RGB.png",
+    partner2Url: "https://viablecities.se",
+    learnMoreLabel: "Learn more:",
     supportedByLabel: "Supported by",
     supportedByName: "Sweden",
     supportedByLogoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Sweden.svg/3840px-Flag_of_Sweden.svg.png",
   },
 };
+
+export interface CountryJourneysOverviewContent {
+  badge: string;
+  title: string;
+  introP1: string;
+  introP2: string;
+  focusNote: string;
+  featuredSectionTitle: string;
+}
+
+export const defaultCountryJourneysOverviewContent: CountryJourneysOverviewContent = {
+  badge: "Country Journeys",
+  title: "Country Journeys",
+  introP1: "The Country Journeys contain deep dive analysis grounded in real-world contexts, showcasing institutional relationships, learning loops, implementation cycles, accountability mechanisms, and enabling conditions required to implement and scale Implementation Pathways across different countries.",
+  introP2: "Country Journeys are intended not only to document implementation approaches, but also to showcase how cities, regions and national governments have co-developed practical solutions that can inform other CHAMP countries.",
+  focusNote: "Special focus on the interactions between institutions and programs, governance capabilities, intermediary functions, financing and implementation platforms, and feedback loops required to sustain long-term climate investment.",
+  featuredSectionTitle: "Featured Country Journeys",
+};
+
+export function parseCountryJourneysOverviewRecords(
+  overviewRecords: any[] = [],
+  countryRecords: any[] = [],
+  homeRecords: any[] = []
+): CountryJourneysOverviewContent {
+  const result: CountryJourneysOverviewContent = {
+    ...defaultCountryJourneysOverviewContent,
+  };
+
+  // 1. Parse from dedicated "Country Journeys Overview" table
+  if (overviewRecords && overviewRecords.length > 0) {
+    // Check row-based key-value pairs
+    for (const record of overviewRecords) {
+      const f = record.fields || {};
+      const key = String(f["Item Key"] || f["Key"] || f["Element Key"] || f["Label / Element"] || "").toLowerCase().trim();
+      const text = String(f["Text Content"] || f["Content"] || f["Text"] || f["Value"] || "").trim();
+      const subText = String(f["Sub-Text / Secondary"] || f["Sub-Text"] || f["Secondary"] || f["Subtitle"] || "").trim();
+
+      if (!text && !subText) continue;
+
+      if (key.includes("page_eyebrow") || key.includes("eyebrow") || key.includes("badge") || key.includes("tag")) {
+        result.badge = text || subText;
+      } else if (key.includes("page_title") || key.includes("main_title") || key.includes("main page title") || key === "title") {
+        result.title = text;
+      } else if (key.includes("intro_p1") || key.includes("paragraph 1") || key.includes("intro p1") || key.includes("intro 1")) {
+        result.introP1 = text;
+      } else if (key.includes("intro_p2") || key.includes("paragraph 2") || key.includes("intro p2") || key.includes("intro 2")) {
+        result.introP2 = text;
+      } else if (key.includes("focus_note") || key.includes("focus note") || key.includes("callout") || key.includes("special focus")) {
+        result.focusNote = text;
+      } else if (key.includes("featured_section_title") || key.includes("featured title") || key.includes("featured section") || key.includes("case studies")) {
+        result.featuredSectionTitle = text;
+      }
+    }
+
+    // Check single-record column-based schema
+    if (overviewRecords.length === 1) {
+      const f = overviewRecords[0].fields || {};
+      if (f["Page Tag / Eyebrow"] || f["Page Eyebrow"] || f["Badge"]) {
+        result.badge = f["Page Tag / Eyebrow"] || f["Page Eyebrow"] || f["Badge"];
+      }
+      if (f["Main Page Title"] || f["Page Title"] || f["Title"]) {
+        result.title = f["Main Page Title"] || f["Page Title"] || f["Title"];
+      }
+      if (f["Intro Paragraph 1"] || f["Intro 1"] || f["Description 1"]) {
+        result.introP1 = f["Intro Paragraph 1"] || f["Intro 1"] || f["Description 1"];
+      }
+      if (f["Intro Paragraph 2"] || f["Intro 2"] || f["Description 2"]) {
+        result.introP2 = f["Intro Paragraph 2"] || f["Intro 2"] || f["Description 2"];
+      }
+      if (f["Special Focus / Callout Note"] || f["Callout Note"] || f["Focus Note"]) {
+        result.focusNote = f["Special Focus / Callout Note"] || f["Callout Note"] || f["Focus Note"];
+      }
+      if (f["Featured Countries Section Title"] || f["Featured Section Title"] || f["Featured Title"]) {
+        result.featuredSectionTitle = f["Featured Countries Section Title"] || f["Featured Section Title"] || f["Featured Title"];
+      }
+    }
+  }
+
+  // 2. Fallback check: if there is an overview record in "Country Journeys" table
+  if (countryRecords && countryRecords.length > 0) {
+    const overviewRow = countryRecords.find(r => {
+      const id = String(r.fields?.["Country ID"] || r.fields?.["Slug"] || "").toLowerCase().trim();
+      const name = String(r.fields?.["Country Name"] || r.fields?.["Country"] || "").toLowerCase().trim();
+      return id === 'overview' || id === 'main' || id === 'journeys' || name === 'country journeys overview';
+    });
+    if (overviewRow) {
+      const f = overviewRow.fields || {};
+      if (f["Header Title"] || f["Country Name"]) result.title = f["Header Title"] || f["Country Name"];
+      if (f["Header Subtitle"] || f["Tagline"]) result.badge = f["Header Subtitle"] || f["Tagline"];
+      if (f["Summary"] || f["Header Description"]) result.introP1 = f["Summary"] || f["Header Description"];
+      if (f["Actions Heading"]) result.featuredSectionTitle = f["Actions Heading"];
+    }
+  }
+
+  // 3. Fallback check: Home Page records with keys for country journeys overview
+  if (homeRecords && homeRecords.length > 0) {
+    for (const r of homeRecords) {
+      const f = r.fields || {};
+      const key = String(f["Item Key"] || f["Key"] || "").toLowerCase().trim();
+      const text = String(f["Text Content"] || f["Content"] || "").trim();
+      if (!text) continue;
+      if (key.includes("country_journey_title") || key.includes("country_journeys_title")) {
+        result.title = text;
+      } else if (key.includes("country_journey_featured") || key.includes("country_journeys_featured")) {
+        result.featuredSectionTitle = text;
+      }
+    }
+  }
+
+  return result;
+}
 
 export function parseHomePageRecords(homeRecords: any[]): HomePageContent {
   const result: HomePageContent = {
@@ -152,12 +269,28 @@ export function parseHomePageRecords(homeRecords: any[]): HomePageContent {
       if (text) result.partnership.title = text;
     } else if (key.includes("partnership_description") || key.includes("partnership body") || key.includes("partnership desc")) {
       if (text) result.partnership.description = text;
+    } else if (key.includes("learn_more_ccfla") || key.includes("partner_1_link") || key.includes("ccfla_link") || key.includes("partner_1_url")) {
+      if (text) result.partnership.partner1Name = text;
+      if (url) result.partnership.partner1Url = url;
+      else if (text && (text.startsWith("http://") || text.startsWith("https://"))) result.partnership.partner1Url = text;
+    } else if (key.includes("learn_more_viable") || key.includes("partner_2_link") || key.includes("viable_cities_link") || key.includes("partner_2_url")) {
+      if (text) result.partnership.partner2Name = text;
+      if (url) result.partnership.partner2Url = url;
+      else if (text && (text.startsWith("http://") || text.startsWith("https://"))) result.partnership.partner2Url = text;
+    } else if (key.includes("learn_more_label") || key.includes("learn_more_title") || key.includes("learn more text")) {
+      if (text) result.partnership.learnMoreLabel = text;
     } else if (key.includes("partner_1") || key.includes("partner 1") || key.includes("ccfla")) {
       if (text) result.partnership.partner1Name = text;
       if (url) result.partnership.partner1LogoUrl = url;
+      if (subText && (subText.startsWith("http://") || subText.startsWith("https://"))) {
+        result.partnership.partner1Url = subText;
+      }
     } else if (key.includes("partner_2") || key.includes("partner 2") || key.includes("viable cities")) {
       if (text) result.partnership.partner2Name = text;
       if (url) result.partnership.partner2LogoUrl = url;
+      if (subText && (subText.startsWith("http://") || subText.startsWith("https://"))) {
+        result.partnership.partner2Url = subText;
+      }
     } else if (key.includes("supported_by") || key.includes("supported by") || key.includes("sponsor") || key.includes("sweden")) {
       if (text) result.partnership.supportedByName = text;
       if (subText) result.partnership.supportedByLabel = subText;
@@ -177,8 +310,11 @@ export function parseHomePageRecords(homeRecords: any[]): HomePageContent {
     if (f["Partnership Description"]) result.partnership.description = f["Partnership Description"];
     if (f["Partner 1 Name"]) result.partnership.partner1Name = f["Partner 1 Name"];
     if (f["Partner 1 Logo"]) result.partnership.partner1LogoUrl = f["Partner 1 Logo"];
+    if (f["Partner 1 URL"] || f["Partner 1 Link"]) result.partnership.partner1Url = f["Partner 1 URL"] || f["Partner 1 Link"];
     if (f["Partner 2 Name"]) result.partnership.partner2Name = f["Partner 2 Name"];
     if (f["Partner 2 Logo"]) result.partnership.partner2LogoUrl = f["Partner 2 Logo"];
+    if (f["Partner 2 URL"] || f["Partner 2 Link"]) result.partnership.partner2Url = f["Partner 2 URL"] || f["Partner 2 Link"];
+    if (f["Learn More Label"]) result.partnership.learnMoreLabel = f["Learn More Label"];
     if (f["Supported By Label"]) result.partnership.supportedByLabel = f["Supported By Label"];
     if (f["Supported By Name"]) result.partnership.supportedByName = f["Supported By Name"];
     if (f["Supported By Logo"]) result.partnership.supportedByLogoUrl = f["Supported By Logo"];
@@ -791,6 +927,7 @@ export interface AirtablePayload {
   actions: Action[];
   homePage: HomePageContent;
   countryJourneys: CountryJourneyData[];
+  countryJourneysOverview: CountryJourneysOverviewContent;
   roadmapPillars: RoadmapPillar[];
   champPledges: ChampPledge[];
 }
@@ -810,6 +947,7 @@ export function fetchAirtableAllContent(): Promise<AirtablePayload> {
       let loadedActions: Action[] | null = null;
       let loadedHomePage: HomePageContent | null = null;
       let loadedCountryJourneys: CountryJourneyData[] | null = null;
+      let loadedCountryJourneysOverview: CountryJourneysOverviewContent | null = null;
       let loadedRoadmapPillars: RoadmapPillar[] | null = null;
       let loadedChampPledges: ChampPledge[] | null = null;
 
@@ -830,7 +968,8 @@ export function fetchAirtableAllContent(): Promise<AirtablePayload> {
             sectionRecords,
             actionRecords,
             roadmapRecords,
-            pledgeRecords
+            pledgeRecords,
+            overviewRecords
           ] = await Promise.all([
             fetchTableClient("Actions", baseId, pat),
             fetchTableClient("Pathways", baseId, pat),
@@ -845,6 +984,7 @@ export function fetchAirtableAllContent(): Promise<AirtablePayload> {
             fetchTableClientSafely(["Country Actions", "Country Journey Actions", "Journey Actions"], baseId, pat),
             fetchTableClientSafely(["CHAMP Implementation Roadmap", "Roadmap", "CHAMP Roadmap"], baseId, pat),
             fetchTableClientSafely(["CHAMP Pledges", "Pledges", "CHAMP Pledge"], baseId, pat),
+            fetchTableClientSafely(["Country Journeys Overview", "Country Journeys Page", "Country Journeys Content", "Country Journey Overview"], baseId, pat),
           ]);
 
           const formatted = parseAirtableRecords(actions, pathways, guidance, examples, subExamples, conceptBoxes, resources);
@@ -863,6 +1003,10 @@ export function fetchAirtableAllContent(): Promise<AirtablePayload> {
             console.log(`[Airtable] Successfully loaded ${loadedCountryJourneys.length} country journeys from live Airtable API.`);
           }
 
+          // Parse Country Journeys Overview
+          loadedCountryJourneysOverview = parseCountryJourneysOverviewRecords(overviewRecords, countryRecords, homeRecords);
+          console.log(`[Airtable] Successfully loaded Country Journeys Overview content from live Airtable API.`);
+
           if (roadmapRecords && roadmapRecords.length > 0) {
             loadedRoadmapPillars = parseChampRoadmapRecords(roadmapRecords);
             console.log(`[Airtable] Successfully loaded ${loadedRoadmapPillars.length} roadmap pillars from live Airtable API.`);
@@ -878,7 +1022,7 @@ export function fetchAirtableAllContent(): Promise<AirtablePayload> {
       }
 
       // Strategy 2: Try static content.json
-      if (!loadedActions || !loadedHomePage || loadedCountryJourneys === null || !loadedRoadmapPillars || !loadedChampPledges) {
+      if (!loadedActions || !loadedHomePage || loadedCountryJourneys === null || !loadedCountryJourneysOverview || !loadedRoadmapPillars || !loadedChampPledges) {
         try {
           const staticRes = await fetch("./api/content.json");
           if (staticRes.ok) {
@@ -891,6 +1035,9 @@ export function fetchAirtableAllContent(): Promise<AirtablePayload> {
             }
             if (loadedCountryJourneys === null && data?.countryJourneys && Array.isArray(data.countryJourneys)) {
               loadedCountryJourneys = data.countryJourneys;
+            }
+            if (!loadedCountryJourneysOverview && data?.countryJourneysOverview) {
+              loadedCountryJourneysOverview = data.countryJourneysOverview;
             }
             if (!loadedRoadmapPillars && data?.roadmapPillars && Array.isArray(data.roadmapPillars)) {
               loadedRoadmapPillars = data.roadmapPillars;
@@ -905,7 +1052,7 @@ export function fetchAirtableAllContent(): Promise<AirtablePayload> {
       }
 
       // Strategy 3: Try Express backend route (/api/content)
-      if (!loadedActions || !loadedHomePage || loadedCountryJourneys === null || !loadedRoadmapPillars || !loadedChampPledges) {
+      if (!loadedActions || !loadedHomePage || loadedCountryJourneys === null || !loadedCountryJourneysOverview || !loadedRoadmapPillars || !loadedChampPledges) {
         try {
           const serverRes = await fetch("/api/content");
           if (serverRes.ok) {
@@ -918,6 +1065,9 @@ export function fetchAirtableAllContent(): Promise<AirtablePayload> {
             }
             if (loadedCountryJourneys === null && data?.countryJourneys && Array.isArray(data.countryJourneys)) {
               loadedCountryJourneys = data.countryJourneys;
+            }
+            if (!loadedCountryJourneysOverview && data?.countryJourneysOverview) {
+              loadedCountryJourneysOverview = data.countryJourneysOverview;
             }
             if (!loadedRoadmapPillars && data?.roadmapPillars && Array.isArray(data.roadmapPillars)) {
               loadedRoadmapPillars = data.roadmapPillars;
@@ -935,6 +1085,7 @@ export function fetchAirtableAllContent(): Promise<AirtablePayload> {
         actions: loadedActions || (actionsData as Action[]),
         homePage: loadedHomePage || defaultHomePageContent,
         countryJourneys: loadedCountryJourneys !== null ? loadedCountryJourneys : defaultCountryJourneys,
+        countryJourneysOverview: loadedCountryJourneysOverview || defaultCountryJourneysOverviewContent,
         roadmapPillars: loadedRoadmapPillars || defaultChampRoadmapData,
         champPledges: loadedChampPledges || defaultChampPledgesData,
       };
@@ -956,6 +1107,11 @@ export async function fetchAirtableContent(): Promise<Action[]> {
 export async function fetchAirtableCountryJourneys(): Promise<CountryJourneyData[]> {
   const { countryJourneys } = await fetchAirtableAllContent();
   return countryJourneys;
+}
+
+export async function fetchAirtableCountryJourneysOverview(): Promise<CountryJourneysOverviewContent> {
+  const { countryJourneysOverview } = await fetchAirtableAllContent();
+  return countryJourneysOverview;
 }
 
 export async function fetchAirtableRoadmap(): Promise<RoadmapPillar[]> {

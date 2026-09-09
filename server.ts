@@ -70,7 +70,8 @@ async function startServer() {
         sectionRecords,
         actionRecords,
         roadmapRecords,
-        pledgesRecords
+        pledgesRecords,
+        overviewRecords
       ] = await Promise.all([
         fetchTable('Actions'),
         fetchTable('Pathways'),
@@ -84,7 +85,8 @@ async function startServer() {
         fetchTableSafely(['Country Sections', 'Country Context Sections', 'Journey Sections']),
         fetchTableSafely(['Country Actions', 'Country Journey Actions', 'Journey Actions']),
         fetchTableSafely(['CHAMP Implementation Roadmap', 'Roadmap', 'CHAMP Roadmap']),
-        fetchTableSafely(['CHAMP Pledges', 'Pledges', 'CHAMP Pledge'])
+        fetchTableSafely(['CHAMP Pledges', 'Pledges', 'CHAMP Pledge']),
+        fetchTableSafely(['Country Journeys Overview', 'Country Journeys Page', 'Country Journeys Content', 'Country Journey Overview'])
       ]);
 
       // Default home page content fallback
@@ -102,8 +104,11 @@ async function startServer() {
           description: "This toolkit is a strategic partnership between CCFLA and Viable Cities. A key goal of this toolkit is to showcase impactful multilevel governance initiatives championed in Sweden.",
           partner1Name: "CCFLA",
           partner1LogoUrl: "https://www.climatepolicyinitiative.org/wp-content/uploads/2020/09/CCFLA-hero.png",
+          partner1Url: "https://citiesclimatefinance.org",
           partner2Name: "Viable Cities",
           partner2LogoUrl: "https://images.squarespace-cdn.com/content/v1/59e86b55aeb625e2140eec1a/1634044375194-3G0ZG1T5HGMGNB2QSEYU/1.+VC_Logotyp_PRIM%C3%84R_RGB.png",
+          partner2Url: "https://viablecities.se",
+          learnMoreLabel: "Learn more:",
           supportedByLabel: "Supported by",
           supportedByName: "Sweden",
           supportedByLogoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Sweden.svg/3840px-Flag_of_Sweden.svg.png"
@@ -136,12 +141,28 @@ async function startServer() {
             if (text) homePageContent.partnership.title = text;
           } else if (key.includes("partnership_description") || key.includes("partnership body") || key.includes("partnership desc")) {
             if (text) homePageContent.partnership.description = text;
+          } else if (key.includes("learn_more_ccfla") || key.includes("partner_1_link") || key.includes("ccfla_link") || key.includes("partner_1_url")) {
+            if (text) homePageContent.partnership.partner1Name = text;
+            if (url) homePageContent.partnership.partner1Url = url;
+            else if (text && (text.startsWith("http://") || text.startsWith("https://"))) homePageContent.partnership.partner1Url = text;
+          } else if (key.includes("learn_more_viable") || key.includes("partner_2_link") || key.includes("viable_cities_link") || key.includes("partner_2_url")) {
+            if (text) homePageContent.partnership.partner2Name = text;
+            if (url) homePageContent.partnership.partner2Url = url;
+            else if (text && (text.startsWith("http://") || text.startsWith("https://"))) homePageContent.partnership.partner2Url = text;
+          } else if (key.includes("learn_more_label") || key.includes("learn_more_title") || key.includes("learn more text")) {
+            if (text) homePageContent.partnership.learnMoreLabel = text;
           } else if (key.includes("partner_1") || key.includes("partner 1") || key.includes("ccfla")) {
             if (text) homePageContent.partnership.partner1Name = text;
             if (url) homePageContent.partnership.partner1LogoUrl = url;
+            if (subText && (subText.startsWith("http://") || subText.startsWith("https://"))) {
+              homePageContent.partnership.partner1Url = subText;
+            }
           } else if (key.includes("partner_2") || key.includes("partner 2") || key.includes("viable cities")) {
             if (text) homePageContent.partnership.partner2Name = text;
             if (url) homePageContent.partnership.partner2LogoUrl = url;
+            if (subText && (subText.startsWith("http://") || subText.startsWith("https://"))) {
+              homePageContent.partnership.partner2Url = subText;
+            }
           } else if (key.includes("supported_by") || key.includes("supported by") || key.includes("sponsor") || key.includes("sweden")) {
             if (text) homePageContent.partnership.supportedByName = text;
             if (subText) homePageContent.partnership.supportedByLabel = subText;
@@ -503,11 +524,48 @@ async function startServer() {
         });
       }
 
+      // Default Country Journeys Overview content fallback
+      const defaultCountryJourneysOverview = {
+        badge: "Country Journeys",
+        title: "Country Journeys",
+        introP1: "The Country Journeys contain deep dive analysis grounded in real-world contexts, showcasing institutional relationships, learning loops, implementation cycles, accountability mechanisms, and enabling conditions required to implement and scale Implementation Pathways across different countries.",
+        introP2: "Country Journeys are intended not only to document implementation approaches, but also to showcase how cities, regions and national governments have co-developed practical solutions that can inform other CHAMP countries.",
+        focusNote: "Special focus on the interactions between institutions and programs, governance capabilities, intermediary functions, financing and implementation platforms, and feedback loops required to sustain long-term climate investment.",
+        featuredSectionTitle: "Featured Country Journeys"
+      };
+
+      const countryJourneysOverview = { ...defaultCountryJourneysOverview };
+      if (overviewRecords && overviewRecords.length > 0) {
+        for (const record of overviewRecords) {
+          const f = record.fields || {};
+          const key = String(f["Item Key"] || f["Key"] || f["Element Key"] || f["Label / Element"] || "").toLowerCase().trim();
+          const text = sanitizeText(f["Text Content"] || f["Content"] || f["Text"] || f["Value"] || "");
+          const subText = sanitizeText(f["Sub-Text / Secondary"] || f["Sub-Text"] || f["Secondary"] || f["Subtitle"] || "");
+
+          if (!text && !subText) continue;
+
+          if (key.includes("page_eyebrow") || key.includes("eyebrow") || key.includes("badge") || key.includes("tag")) {
+            countryJourneysOverview.badge = text || subText;
+          } else if (key.includes("page_title") || key.includes("main_title") || key.includes("main page title") || key === "title") {
+            countryJourneysOverview.title = text;
+          } else if (key.includes("intro_p1") || key.includes("paragraph 1") || key.includes("intro p1") || key.includes("intro 1")) {
+            countryJourneysOverview.introP1 = text;
+          } else if (key.includes("intro_p2") || key.includes("paragraph 2") || key.includes("intro p2") || key.includes("intro 2")) {
+            countryJourneysOverview.introP2 = text;
+          } else if (key.includes("focus_note") || key.includes("focus note") || key.includes("callout") || key.includes("special focus")) {
+            countryJourneysOverview.focusNote = text;
+          } else if (key.includes("featured_section_title") || key.includes("featured title") || key.includes("featured section") || key.includes("case studies")) {
+            countryJourneysOverview.featuredSectionTitle = text;
+          }
+        }
+      }
+
       res.json({
         success: true,
         formattedActions,
         homePageContent,
         countryJourneys,
+        countryJourneysOverview,
         roadmapPillars,
         champPledges
       });

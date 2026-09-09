@@ -55,34 +55,24 @@ export default function Footer({
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-ink-muted">
-              <span className="font-medium text-ink">In partnership with:</span>
+              <span className="font-medium text-ink">{partnership.learnMoreLabel || "In partnership with:"}</span>
               <a 
-                href="https://citiesclimatefinance.org" 
+                href={partnership.partner1Url || "https://citiesclimatefinance.org"} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 font-semibold text-accent hover:underline hover:opacity-80 transition-opacity"
               >
-                CCFLA
+                {partnership.partner1Name || "CCFLA"}
                 <ExternalLink size={11} />
               </a>
               <span className="text-line">•</span>
               <a 
-                href="https://viablecities.se" 
+                href={partnership.partner2Url || "https://viablecities.se"} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 font-semibold text-accent hover:underline hover:opacity-80 transition-opacity"
               >
-                Viable Cities
-                <ExternalLink size={11} />
-              </a>
-              <span className="text-line">•</span>
-              <a 
-                href="https://www.climatepolicyinitiative.org" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-ink-muted hover:text-ink hover:underline transition-colors"
-              >
-                CPI
+                {partnership.partner2Name || "Viable Cities"}
                 <ExternalLink size={11} />
               </a>
             </div>
@@ -97,11 +87,11 @@ export default function Footer({
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 py-2">
               {partnership.partner1LogoUrl && (
                 <a 
-                  href="https://citiesclimatefinance.org"
-                  target="_blank"
+                  href={partnership.partner1Url || "https://citiesclimatefinance.org"}
+                  target="_blank" 
                   rel="noopener noreferrer"
                   className="flex-1 flex justify-center items-center hover:opacity-80 transition-opacity"
-                  title="Cities Climate Finance Leadership Alliance (CCFLA) / Climate Policy Initiative"
+                  title={partnership.partner1Name || "Cities Climate Finance Leadership Alliance (CCFLA)"}
                 >
                   <img 
                     src={partnership.partner1LogoUrl} 
@@ -118,11 +108,11 @@ export default function Footer({
 
               {partnership.partner2LogoUrl && (
                 <a 
-                  href="https://viablecities.se"
-                  target="_blank"
+                  href={partnership.partner2Url || "https://viablecities.se"}
+                  target="_blank" 
                   rel="noopener noreferrer"
                   className="flex-1 flex justify-center items-center hover:opacity-80 transition-opacity"
-                  title="Viable Cities"
+                  title={partnership.partner2Name || "Viable Cities"}
                 >
                   <img 
                     src={partnership.partner2LogoUrl} 
@@ -166,34 +156,23 @@ export default function Footer({
               <ul className="space-y-2.5 text-[13.5px]">
                 <li>
                   <a 
-                    href="https://citiesclimatefinance.org" 
+                    href={partnership.partner1Url || "https://citiesclimatefinance.org"} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="group inline-flex items-center gap-1.5 text-ink-muted hover:text-ink transition-colors"
                   >
-                    <span>Cities Climate Finance Alliance</span>
+                    <span>{partnership.partner1Name ? `${partnership.partner1Name} (Cities Climate Finance Alliance)` : "Cities Climate Finance Alliance"}</span>
                     <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity text-accent" />
                   </a>
                 </li>
                 <li>
                   <a 
-                    href="https://www.climatepolicyinitiative.org" 
+                    href={partnership.partner2Url || "https://viablecities.se"} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="group inline-flex items-center gap-1.5 text-ink-muted hover:text-ink transition-colors"
                   >
-                    <span>Climate Policy Initiative (CPI)</span>
-                    <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity text-accent" />
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="https://viablecities.se" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-1.5 text-ink-muted hover:text-ink transition-colors"
-                  >
-                    <span>Viable Cities Sweden</span>
+                    <span>{partnership.partner2Name ? `${partnership.partner2Name} Sweden` : "Viable Cities Sweden"}</span>
                     <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity text-accent" />
                   </a>
                 </li>
@@ -239,7 +218,7 @@ export default function Footer({
       <div className="border-t border-line bg-surface/80">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-ink-muted">
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-            <span>© {currentYear} <strong>Climate Policy Initiative</strong> & <strong>Viable Cities</strong>.</span>
+            <span>© {currentYear} <strong>{partnership.partner1Name || "CCFLA"}</strong> & <strong>{partnership.partner2Name || "Viable Cities"}</strong>.</span>
             <span className="hidden sm:inline text-line">•</span>
             <span>All rights reserved.</span>
           </div>

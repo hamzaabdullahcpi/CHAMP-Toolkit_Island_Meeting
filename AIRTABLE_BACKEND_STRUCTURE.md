@@ -187,6 +187,48 @@ Defines the mapping to the 6 Core Actions inside **Tab B (The Multilevel Model)*
 
 ---
 
+### Table 11: `Country Journeys Overview`
+Controls and feeds all header titles, tags, narrative paragraphs, and section headings on the main Country Journeys overview page.
+
+| Field Name | Type | Description / Example |
+| :--- | :--- | :--- |
+| `Label / Element` | Single line text | Descriptive name of the element (e.g. `Page Title`, `Page Eyebrow / Tag`, `Featured Countries Section Title`). |
+| `Item Key` | Single line text | System key matching `page_title`, `page_eyebrow`, `intro_p1`, `intro_p2`, `focus_note`, `featured_section_title`. |
+| `Section` | Single select / Text | `Header` or `Content`. |
+| `Text Content` | Long text | Primary text content to display on the page. |
+| `Sub-Text / Secondary` | Single line text | Optional secondary text or subtitle. |
+| `Notes / Guidance` | Single line text | Guidance note for editors. |
+
+**Key Mappings:**
+- `page_title`: Changes the main page H1 title (e.g., "Country Journeys").
+- `page_eyebrow`: Changes the top badge (e.g., "Country Journeys").
+- `intro_p1`: First introductory paragraph.
+- `intro_p2`: Second introductory paragraph.
+- `focus_note`: Special focus callout block with accent border.
+- `featured_section_title`: Section title above the country cards (e.g., "Featured Country Journeys").
+
+---
+
+### Table 12: `Home Page`
+Controls the landing page hero banner, description, partnership section, logos, and "Learn more" external links.
+
+| Field Name | Type | Description / Example |
+| :--- | :--- | :--- |
+| `Label / Element` | Single line text | Descriptive name of the element (e.g. `Partner 1: CCFLA`, `Learn More: CCFLA Link`). |
+| `Item Key` | Single line text | Key matching `hero_eyebrow`, `hero_title`, `hero_subtitle`, `hero_description`, `hero_image_url`, `partnership_title`, `partnership_description`, `partner_1`, `partner_2`, `supported_by`, `learn_more_ccfla`, `learn_more_viable_cities`. |
+| `Section` | Single select | `Hero Banner`, `Partnership & Support`, or `General`. |
+| `Text Content` | Long text | Text content (e.g., "CCFLA", "Viable Cities", or section paragraphs). |
+| `Sub-Text / Secondary` | Long text | Secondary text (e.g., "Supported by" label, title badge, or URL fallback). |
+| `Image / Link URL` | URL | Image or external hyperlink URL (e.g. `https://citiesclimatefinance.org`, `https://viablecities.se`). |
+| `Notes / Guidance` | Long text | Guidance note for editors. |
+
+**Key Mappings for Learn More Links:**
+- `learn_more_ccfla`: Sets the external URL (in `Image / Link URL`) and optional label (in `Text Content`) for CCFLA under "Learn more:".
+- `learn_more_viable_cities`: Sets the external URL (in `Image / Link URL`) and optional label (in `Text Content`) for Viable Cities under "Learn more:".
+- `learn_more_label`: Optional override for the "Learn more:" prefix label.
+
+---
+
 ## 🌟 Replicability & Fallback Guarantees
 
 1. **Two-Tab Structure Across All Pathways**:

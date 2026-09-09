@@ -11,15 +11,18 @@ import {
 } from 'lucide-react';
 import { CountryJourneyData } from '../types/countryJourney';
 import { defaultCountryJourneys } from '../data/countryJourneysData';
+import { CountryJourneysOverviewContent, defaultCountryJourneysOverviewContent } from '../services/airtableService';
 
 interface CountryJourneysOverviewProps {
   countryJourneys?: CountryJourneyData[];
+  overviewContent?: CountryJourneysOverviewContent;
   onSelectCountry: (countryId: string) => void;
   onNavigateToCoreAction?: (actionId: number) => void;
 }
 
 export default function CountryJourneysOverview({ 
   countryJourneys = defaultCountryJourneys, 
+  overviewContent = defaultCountryJourneysOverviewContent,
   onSelectCountry, 
   onNavigateToCoreAction 
 }: CountryJourneysOverviewProps) {
@@ -84,31 +87,33 @@ export default function CountryJourneysOverview({
       <div className="mb-12">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/10 border border-accent/20 rounded-none text-accent font-mono text-xs font-semibold uppercase tracking-widest mb-4">
           <Globe size={13} />
-          Country Journeys
+          {overviewContent.badge || "Country Journeys"}
         </div>
         <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-ink font-normal tracking-tight leading-[1.1] mb-6">
-          Country Multilevel Governance Journeys
+          {overviewContent.title || "Country Journeys"}
         </h1>
         
         <div className="space-y-4 text-lg text-ink-muted leading-relaxed font-light font-sans max-w-4xl">
-          <p>
-            The Country Journeys contain deep dive analysis grounded in real-world contexts, showcasing institutional relationships, learning loops, implementation cycles, accountability mechanisms, and enabling conditions required to implement and scale Implementation Pathways across different countries.
-          </p>
-          <p>
-            Country Journeys are intended not only to document implementation approaches, but also to showcase how cities, regions and national governments have co-developed practical solutions that can inform other CHAMP countries.
-          </p>
-          <p className="text-ink font-normal pt-2 border-l-2 border-accent pl-4 text-base italic bg-surface/50 py-2 rounded-none">
-            Special focus on the interactions between institutions and programs, governance capabilities, intermediary functions, financing and implementation platforms, and feedback loops required to sustain long-term climate investment.
-          </p>
+          {overviewContent.introP1 && (
+            <p>{overviewContent.introP1}</p>
+          )}
+          {overviewContent.introP2 && (
+            <p>{overviewContent.introP2}</p>
+          )}
+          {overviewContent.focusNote && (
+            <p className="text-ink font-normal pt-2 border-l-2 border-accent pl-4 text-base italic bg-surface/50 py-2 rounded-none">
+              {overviewContent.focusNote}
+            </p>
+          )}
         </div>
       </div>
 
-      {/* Featured Country Case Studies Header & Controls */}
+      {/* Featured Country Journeys Header & Controls */}
       <div className="mb-14">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-line">
           <div>
             <h2 className="font-heading text-2xl font-medium text-ink">
-              Featured Country Case Studies
+              {overviewContent.featuredSectionTitle || "Featured Country Journeys"}
             </h2>
           </div>
 

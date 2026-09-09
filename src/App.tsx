@@ -13,7 +13,9 @@ import { CountryJourneyData } from "./types/countryJourney";
 import { 
   fetchAirtableAllContent, 
   defaultHomePageContent, 
-  HomePageContent 
+  HomePageContent,
+  CountryJourneysOverviewContent,
+  defaultCountryJourneysOverviewContent
 } from "./services/airtableService";
 import { RoadmapPillar, defaultChampRoadmapData } from "./data/champRoadmapData";
 import { ChampPledge, defaultChampPledgesData } from "./data/champPledgesData";
@@ -52,6 +54,13 @@ export default function App() {
     } catch (e) {}
     return defaultCountryJourneys;
   });
+  const [liveCountryJourneysOverview, setLiveCountryJourneysOverview] = useState<CountryJourneysOverviewContent>(() => {
+    try {
+      const saved = localStorage.getItem("champ_country_journeys_overview_cache");
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return defaultCountryJourneysOverviewContent;
+  });
   const [liveRoadmapPillars, setLiveRoadmapPillars] = useState<RoadmapPillar[]>(() => {
     try {
       const saved = localStorage.getItem("champ_roadmap_cache");
@@ -73,7 +82,7 @@ export default function App() {
     let isMounted = true;
     const loadContent = async () => {
       try {
-        const { actions, homePage, countryJourneys, roadmapPillars, champPledges } = await fetchAirtableAllContent();
+        const { actions, homePage, countryJourneys, countryJourneysOverview, roadmapPillars, champPledges } = await fetchAirtableAllContent();
         if (isMounted) {
           if (actions && actions.length > 0) {
             setLiveActionsData(actions);
@@ -86,6 +95,10 @@ export default function App() {
           if (countryJourneys) {
             setLiveCountryJourneys(countryJourneys);
             try { localStorage.setItem("champ_country_journeys_cache", JSON.stringify(countryJourneys)); } catch (e) {}
+          }
+          if (countryJourneysOverview) {
+            setLiveCountryJourneysOverview(countryJourneysOverview);
+            try { localStorage.setItem("champ_country_journeys_overview_cache", JSON.stringify(countryJourneysOverview)); } catch (e) {}
           }
           if (roadmapPillars && roadmapPillars.length > 0) {
             setLiveRoadmapPillars(roadmapPillars);
@@ -175,6 +188,7 @@ export default function App() {
             ) : currentStep === 'journeys' ? (
               <CountryJourneysOverview 
                 countryJourneys={liveCountryJourneys}
+                overviewContent={liveCountryJourneysOverview}
                 onSelectCountry={(countryId) => setCurrentStep(countryId)}
                 onNavigateToCoreAction={(actionId) => setCurrentStep(actionId)}
               />

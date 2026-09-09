@@ -22,12 +22,9 @@ export default function MindMapGraphic({
   return (
     <div className="w-full flex flex-col items-center bg-paper py-12 px-4 md:px-8 border-y border-line min-h-[520px]">
       <div className="text-center mb-8 max-w-3xl">
-        <h3 className="font-heading text-2xl md:text-3xl font-bold text-ink mb-1.5">
+        <h3 className="font-heading text-2xl md:text-3xl font-bold text-ink mb-2">
           Explore 6 Actions
         </h3>
-        <p className="text-sm md:text-base text-[#3c4799] font-medium mb-2">
-          Multilevel Governance, Investment and Implementation
-        </p>
         <p className="text-ink-muted text-xs md:text-[13px] font-light">
           {activeActionId 
             ? "Click any action card to switch, click pathways to view key resources, or click (↗) to navigate directly." 

@@ -183,6 +183,22 @@ async function createHomePageTable() {
       "Sub-Text / Secondary": "Supported by",
       "Image / Link URL": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Sweden.svg/3840px-Flag_of_Sweden.svg.png",
       "Notes / Guidance": "Supporting country / sponsor name, label, and flag/logo URL"
+    },
+    {
+      "Label / Element": "Learn More: CCFLA Link",
+      "Item Key": "learn_more_ccfla",
+      "Section": "Partnership & Support",
+      "Text Content": "CCFLA",
+      "Image / Link URL": "https://citiesclimatefinance.org",
+      "Notes / Guidance": "External website URL for CCFLA shown in the Learn More links."
+    },
+    {
+      "Label / Element": "Learn More: Viable Cities Link",
+      "Item Key": "learn_more_viable_cities",
+      "Section": "Partnership & Support",
+      "Text Content": "Viable Cities",
+      "Image / Link URL": "https://viablecities.se",
+      "Notes / Guidance": "External website URL for Viable Cities shown in the Learn More links."
     }
   ];
 

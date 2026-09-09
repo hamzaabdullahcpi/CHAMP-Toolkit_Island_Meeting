@@ -161,36 +161,26 @@ export default function LandingPage({
                 {renderFormattedText(partnership.description || "This toolkit is a strategic partnership between CCFLA and Viable Cities. A key goal of this toolkit is to showcase impactful multilevel governance initiatives championed in Sweden.")}
               </p>
 
-              {/* Links to CPI, CCFLA, and Viable Cities */}
+              {/* Links to CCFLA and Viable Cities */}
               <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-ink-muted">
-                <span className="font-medium text-ink">Learn more:</span>
+                <span className="font-medium text-ink">{partnership.learnMoreLabel || "Learn more:"}</span>
                 <a 
-                  href="https://citiesclimatefinance.org" 
+                  href={partnership.partner1Url || "https://citiesclimatefinance.org"} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 font-semibold text-accent hover:underline hover:opacity-80 transition-opacity"
                 >
-                  CCFLA
+                  {partnership.partner1Name || "CCFLA"}
                   <ExternalLink size={11} />
                 </a>
                 <span className="text-line">•</span>
                 <a 
-                  href="https://viablecities.se" 
+                  href={partnership.partner2Url || "https://viablecities.se"} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 font-semibold text-accent hover:underline hover:opacity-80 transition-opacity"
                 >
-                  Viable Cities
-                  <ExternalLink size={11} />
-                </a>
-                <span className="text-line">•</span>
-                <a 
-                  href="https://www.climatepolicyinitiative.org" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-ink-muted hover:text-ink hover:underline transition-colors"
-                >
-                  CPI
+                  {partnership.partner2Name || "Viable Cities"}
                   <ExternalLink size={11} />
                 </a>
               </div>
@@ -200,11 +190,11 @@ export default function LandingPage({
               <div className="flex flex-col sm:flex-row items-center justify-center gap-8 md:gap-12 w-full">
                 {partnership.partner1LogoUrl && (
                   <a 
-                    href="https://citiesclimatefinance.org" 
+                    href={partnership.partner1Url || "https://citiesclimatefinance.org"} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex-1 flex justify-end items-center hover:opacity-85 transition-opacity"
-                    title="Cities Climate Finance Leadership Alliance / Climate Policy Initiative"
+                    title={partnership.partner1Name || "Cities Climate Finance Leadership Alliance"}
                   >
                     <img 
                       src={partnership.partner1LogoUrl} 
@@ -219,11 +209,11 @@ export default function LandingPage({
                 )}
                 {partnership.partner2LogoUrl && (
                   <a 
-                    href="https://viablecities.se" 
+                    href={partnership.partner2Url || "https://viablecities.se"} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex-1 flex justify-start items-center hover:opacity-85 transition-opacity"
-                    title="Viable Cities"
+                    title={partnership.partner2Name || "Viable Cities"}
                   >
                     <img 
                       src={partnership.partner2LogoUrl} 
