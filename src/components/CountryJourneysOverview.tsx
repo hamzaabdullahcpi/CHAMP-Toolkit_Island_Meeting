@@ -12,6 +12,7 @@ import {
 import { CountryJourneyData } from '../types/countryJourney';
 import { defaultCountryJourneys } from '../data/countryJourneysData';
 import { CountryJourneysOverviewContent, defaultCountryJourneysOverviewContent } from '../services/airtableService';
+import { resolveAssetUrl } from '../utils/assetUtils';
 
 interface CountryJourneysOverviewProps {
   countryJourneys?: CountryJourneyData[];
@@ -286,7 +287,7 @@ function CountryCard({ journey: j, onSelectCountry }: CountryCardProps) {
       <div className={`relative h-36 w-full overflow-hidden ${isReady ? 'bg-slate-900' : 'bg-slate-300 dark:bg-slate-800'}`}>
         {j.cardImage && (
           <img 
-            src={j.cardImage} 
+            src={resolveAssetUrl(j.cardImage, '')} 
             alt={j.countryName} 
             className={`w-full h-full object-cover transition-transform duration-500 ${
               isReady 

@@ -9,6 +9,7 @@ import {
   Move,
   Scan
 } from 'lucide-react';
+import { resolveAssetUrl, defaultArchitectureImage } from '../utils/assetUtils';
 
 export interface SwedenArchitectureDiagramProps {
   customImageUrl?: string;
@@ -30,10 +31,8 @@ export default function SwedenArchitectureDiagram({
   const [fitMode, setFitMode] = useState<'contain' | 'width'>('contain');
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Default hardcoded fallback diagram
-  const imageSrc = customImageUrl && customImageUrl.trim().length > 0 
-    ? customImageUrl 
-    : "/sweden-model-architecture.png";
+  // Default fallback diagram with proper deployment base URL resolution
+  const imageSrc = resolveAssetUrl(customImageUrl, defaultArchitectureImage);
 
   const handleZoomIn = useCallback(() => setModalZoom(prev => Math.min(Number((prev + 0.25).toFixed(2)), 4.0)), []);
   const handleZoomOut = useCallback(() => setModalZoom(prev => Math.max(Number((prev - 0.25).toFixed(2)), 0.6)), []);
@@ -153,8 +152,8 @@ export default function SwedenArchitectureDiagram({
             loading="eager"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
-              if (target.src !== window.location.origin + "/sweden-model-architecture.png") {
-                target.src = "/sweden-model-architecture.png";
+              if (target.src !== defaultArchitectureImage) {
+                target.src = defaultArchitectureImage;
               }
             }}
           />
@@ -266,8 +265,8 @@ export default function SwedenArchitectureDiagram({
                   draggable={false}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    if (target.src !== window.location.origin + "/sweden-model-architecture.png") {
-                      target.src = "/sweden-model-architecture.png";
+                    if (target.src !== defaultArchitectureImage) {
+                      target.src = defaultArchitectureImage;
                     }
                   }}
                 />

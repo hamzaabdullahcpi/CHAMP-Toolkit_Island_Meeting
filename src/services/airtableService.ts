@@ -513,7 +513,7 @@ export function parseCountryJourneyRecords(
     const tabATitle = f["Tab A Title"] || fallback.tabATitle;
     const tabASubtitle = f["Tab A Subtitle"] || fallback.tabASubtitle;
     const premisesHeading = f["Premises Heading"] || fallback.premisesHeading;
-    const premisesIntro = f["Premises Intro"] || fallback.premisesIntro;
+    const premisesIntro = f["Premises Intro"] !== undefined ? f["Premises Intro"] : fallback.premisesIntro;
 
     const tabBTitle = f["Tab B Title"] || fallback.tabBTitle;
     const tabBSubtitle = f["Tab B Subtitle"] || fallback.tabBSubtitle;

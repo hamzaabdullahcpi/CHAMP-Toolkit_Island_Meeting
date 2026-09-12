@@ -7,6 +7,7 @@ import { ExternalLink, HelpCircle } from "lucide-react";
 import { HomePageContent, defaultHomePageContent } from "../services/airtableService";
 import { RoadmapPillar } from "../data/champRoadmapData";
 import { ChampPledge } from "../data/champPledgesData";
+import { resolveAssetUrl, defaultHeroImage } from "../utils/assetUtils";
 
 interface LandingPageProps {
   onStart: () => void;
@@ -66,10 +67,16 @@ export default function LandingPage({
         className="relative w-full h-[560px] sm:h-[620px] lg:h-[700px] overflow-hidden group"
       >
         <img
-          src={hero.imageUrl || "/images/hero-city.jpg"}
+          src={resolveAssetUrl(hero.imageUrl, defaultHeroImage)}
           alt="Aerial view of Stockholm's Södra Länken highway and Slussen transit interchange"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-[20s] ease-out group-hover:scale-105"
           referrerPolicy="no-referrer"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            if (target.src !== defaultHeroImage) {
+              target.src = defaultHeroImage;
+            }
+          }}
         />
 
         {/* Content panel: contained within the photo, flush to the right edge. Shorter than the
