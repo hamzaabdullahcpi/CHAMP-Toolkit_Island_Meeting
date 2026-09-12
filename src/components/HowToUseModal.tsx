@@ -1,55 +1,15 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
+import { HowToUseContent, defaultHowToUseContent } from '../services/airtableService';
 
 interface HowToUseModalProps {
   isOpen: boolean;
   onClose: () => void;
+  content?: HowToUseContent;
 }
 
-interface ToolkitComponentItem {
-  name: string;
-  heading: string;
-  description: string;
-}
-
-const NAVIGATE_COMPONENTS: ToolkitComponentItem[] = [
-  {
-    name: "Actions",
-    heading: "Start with what needs to happen.",
-    description: "Six interconnected areas of action supporting the CHAMP Implementation Roadmap across multilevel governance, finance and implementation.",
-  },
-  {
-    name: "Implementation Pathways",
-    heading: "Choose a way to put the Action into practice.",
-    description: "Practical approaches that governments and their partners can adapt to their context.",
-  },
-  {
-    name: "Implementation Guidance",
-    heading: "Follow practical guidance for each pathway.",
-    description: "Key steps and considerations to help governments and partners apply the approach.",
-  },
-];
-
-const SUPPORTING_COMPONENTS: ToolkitComponentItem[] = [
-  {
-    name: "Tools",
-    heading: "Use resources that can help.",
-    description: "Practical frameworks, methodologies and resources that support specific parts of implementation.",
-  },
-  {
-    name: "Illustrative Examples",
-    heading: "See what the approach looks like in practice.",
-    description: "Real-world examples showing how governments and partners have applied it in different contexts.",
-  },
-  {
-    name: "Country Journeys",
-    heading: "See how the pieces connect.",
-    description: "Deeper country examples showing how multiple Actions and pathways work together as part of a wider governance, finance and implementation system.",
-  },
-];
-
-export default function HowToUseModal({ isOpen, onClose }: HowToUseModalProps) {
+export default function HowToUseModal({ isOpen, onClose, content }: HowToUseModalProps) {
   // Handle escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -62,6 +22,14 @@ export default function HowToUseModal({ isOpen, onClose }: HowToUseModalProps) {
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
+
+  const title = content?.title || defaultHowToUseContent.title;
+  const intro = content?.intro || defaultHowToUseContent.intro;
+  const introParagraphs = intro
+    .split(/\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  const items = content?.items && content.items.length > 0 ? content.items : defaultHowToUseContent.items;
 
   return (
     <AnimatePresence>
@@ -86,25 +54,21 @@ export default function HowToUseModal({ isOpen, onClose }: HowToUseModalProps) {
           onClick={(e) => e.stopPropagation()}
         >
           {/* Top subtle brand accent line */}
-          <div className="w-full h-1 bg-[#3c4799] shrink-0" />
+          <div className="w-full h-1 bg-[#3B877E] shrink-0" />
 
           {/* Modal Header */}
           <div className="px-6 py-5 md:px-8 md:py-6 bg-paper border-b border-line flex items-start justify-between gap-4 shrink-0">
             <div className="max-w-3xl">
               <h3 className="font-heading text-xl md:text-2xl font-bold text-ink leading-tight">
-                How to use this Toolkit
+                {title}
               </h3>
               
-              <div className="text-xs md:text-sm text-ink font-normal mt-2.5 leading-relaxed space-y-2">
-                <p className="text-ink/90">
-                  The CHAMP Toolkit is designed for national governments, cities and subnational authorities, Friends of CHAMP, and development partners, to turn shared climate priorities into investment and implementation.
-                </p>
-                <p className="text-ink/80">
-                  It is organised around six interconnected Actions that take you from alignment and enabling conditions through to investment, implementation and scale.
-                </p>
-                <p className="text-ink-muted text-xs md:text-[13px]">
-                  Explore the 6 Actions - each containing implementation pathways alongside implementation guidance, tools and practical examples.
-                </p>
+              <div className="body-text-sm mt-2.5 leading-relaxed space-y-2 text-ink-muted">
+                {introParagraphs.map((paragraph, idx) => (
+                  <p key={idx}>
+                    {paragraph}
+                  </p>
+                ))}
               </div>
             </div>
 
@@ -117,95 +81,36 @@ export default function HowToUseModal({ isOpen, onClose }: HowToUseModalProps) {
             </button>
           </div>
 
-          {/* Modal Body: Two Clean Grouped Sections without distracting icons */}
-          <div className="p-6 md:p-8 overflow-y-auto custom-scrollbar flex-1 bg-surface space-y-6">
-            
-            {/* GROUP 1: NAVIGATE THE TOOLKIT */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between pb-1.5 border-b border-line">
-                <span className="text-xs font-bold uppercase tracking-wider text-ink font-heading">
-                  NAVIGATE THE TOOLKIT
-                </span>
-                <span className="text-[11px] text-ink-muted hidden sm:inline-block">
-                  Core Journey: Actions → Pathways → Guidance
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-                {NAVIGATE_COMPONENTS.map((item, index) => (
-                  <div 
-                    key={index}
-                    className="p-4 bg-paper border border-line flex flex-col justify-between transition-colors hover:border-[#3c4799]/40 group"
-                  >
-                    <div>
-                      {/* Component Label */}
-                      <h4 className="font-heading text-sm font-bold text-[#3c4799] tracking-tight mb-2">
-                        {item.name}
-                      </h4>
-
-                      {/* Lead-in heading */}
-                      <p className="text-xs font-semibold text-ink leading-snug mb-1.5">
-                        {item.heading}
-                      </p>
-
-                      {/* Description */}
-                      <p className="text-[12.5px] text-ink/80 font-normal leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
+          {/* Modal Body: 2x2 Grid with Minimalist Clean Design */}
+          <div className="p-6 md:p-8 overflow-y-auto custom-scrollbar flex-1 bg-surface">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+              {items.map((item, index) => (
+                <div 
+                  key={index}
+                  className="p-5 sm:p-6 bg-paper border border-line flex flex-col justify-start transition-all hover:border-[#3B877E]/50 hover:shadow-xs group"
+                >
+                  <div className="mb-2">
+                    <span className="text-[11px] font-bold text-[#3B877E] uppercase tracking-wider bg-[#3B877E]/10 px-2 py-0.5 border border-[#3B877E]/20 inline-block mb-2">
+                      {item.name}
+                    </span>
+                    <h4 className="font-heading text-base sm:text-[17px] font-bold text-ink tracking-tight leading-snug">
+                      {item.heading}
+                    </h4>
                   </div>
-                ))}
-              </div>
+
+                  <p className="body-text-sm text-ink-muted leading-relaxed mt-1">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
             </div>
-
-            {/* GROUP 2: SUPPORTING YOUR JOURNEY */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between pb-1.5 border-b border-line">
-                <span className="text-xs font-bold uppercase tracking-wider text-ink font-heading">
-                  SUPPORTING YOUR JOURNEY
-                </span>
-                <span className="text-[11px] text-ink-muted hidden sm:inline-block">
-                  Resources, Evidence & Practical Applications
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-                {SUPPORTING_COMPONENTS.map((item, index) => (
-                  <div 
-                    key={index}
-                    className="p-4 bg-paper border border-line flex flex-col justify-between transition-colors hover:border-[#3c4799]/40 group"
-                  >
-                    <div>
-                      {/* Component Label */}
-                      <h4 className="font-heading text-sm font-bold text-[#3c4799] tracking-tight mb-2">
-                        {item.name}
-                      </h4>
-
-                      {/* Lead-in heading */}
-                      <p className="text-xs font-semibold text-ink leading-snug mb-1.5">
-                        {item.heading}
-                      </p>
-
-                      {/* Description */}
-                      <p className="text-[12.5px] text-ink/80 font-normal leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
           </div>
 
           {/* Modal Footer */}
-          <div className="px-6 py-4 md:px-8 bg-paper border-t border-line flex items-center justify-between shrink-0">
-            <span className="text-xs text-ink font-medium">
-              Choose an Action to get started.
-            </span>
+          <div className="px-6 py-4 md:px-8 bg-paper border-t border-line flex items-center justify-end shrink-0">
             <button
               onClick={onClose}
-              className="ml-auto px-5 py-2 bg-ink text-surface text-xs font-semibold hover:bg-ink/90 transition-colors cursor-pointer"
+              className="px-5 py-2 bg-ink text-surface text-xs font-semibold hover:bg-ink/90 transition-colors cursor-pointer"
             >
               Close
             </button>

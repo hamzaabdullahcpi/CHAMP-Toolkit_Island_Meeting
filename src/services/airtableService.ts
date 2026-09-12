@@ -95,10 +95,54 @@ export interface HomePagePartnership {
   supportedByLogoUrl: string;
 }
 
+export interface ToolkitSectionItem {
+  name: string;
+  heading: string;
+  description: string;
+}
+
+export interface HowToUseContent {
+  title: string;
+  intro: string;
+  items: ToolkitSectionItem[];
+}
+
 export interface HomePageContent {
   hero: HomePageHero;
   partnership: HomePagePartnership;
+  howToUse?: HowToUseContent;
 }
+
+export const defaultHowToUseContent: HowToUseContent = {
+  title: "How to Use the Toolkit",
+  intro: "The CHAMP Toolkit is designed primarily for national governments, working with cities and subnational authorities, Friends of CHAMP and development partners, to mobilize finance for implementation of urban and subnational climate action.\n\nExplore the 6 Actions — each containing Implementation Pathways, practical guidance, tools and illustrative examples.",
+  items: [
+    {
+      name: "Actions",
+      heading: "Start with what needs to happen.",
+      description:
+        "Six interconnected areas of action that help national and subnational governments strengthen the governance, investment and implementation systems needed to deliver CHAMP commitments.",
+    },
+    {
+      name: "Implementation Pathways",
+      heading: "Choose a way to put the Action into practice.",
+      description:
+        "Practical approaches to finance and implementation that national governments and their partners can adapt to their context.",
+    },
+    {
+      name: "Implementation Guidance",
+      heading: "Follow practical guidance for each pathway.",
+      description:
+        "Key steps and considerations to help national governments and partners apply the pathways. Implementation guidance will include Illustrative Examples showing real-world applications of each Implementation Pathway and Tools, which are practical frameworks and resources supporting the implementation.",
+    },
+    {
+      name: "Country Journeys",
+      heading: "See how the pieces connect.",
+      description:
+        "Deeper country examples showing how multiple Actions and pathways connect across levels of government as part of a wider climate governance, investment and implementation system.",
+    },
+  ],
+};
 
 export const defaultHomePageContent: HomePageContent = {
   hero: {
@@ -107,7 +151,7 @@ export const defaultHomePageContent: HomePageContent = {
     titleMain: "Toolkit",
     titleSub: "for Multilevel Climate governance and finance.",
     description: "Supporting the ‘CHAMP Investment Pledge’ delivery through guidance on policy reform, governance, investment pipelines, project aggregation and financial instruments.",
-    imageUrl: "https://plus.unsplash.com/premium_photo-1697729968500-d0c63fd49bfa?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageUrl: "/images/hero-city.jpg",
   },
   partnership: {
     title: "A Joint Contribution to CHAMP",
@@ -123,6 +167,7 @@ export const defaultHomePageContent: HomePageContent = {
     supportedByName: "Sweden",
     supportedByLogoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Sweden.svg/3840px-Flag_of_Sweden.svg.png",
   },
+  howToUse: defaultHowToUseContent,
 };
 
 export interface CountryJourneysOverviewContent {
@@ -240,6 +285,11 @@ export function parseHomePageRecords(homeRecords: any[]): HomePageContent {
   const result: HomePageContent = {
     hero: { ...defaultHomePageContent.hero },
     partnership: { ...defaultHomePageContent.partnership },
+    howToUse: {
+      title: defaultHowToUseContent.title,
+      intro: defaultHowToUseContent.intro,
+      items: defaultHowToUseContent.items.map(item => ({ ...item })),
+    },
   };
 
   if (!homeRecords || homeRecords.length === 0) {
@@ -249,6 +299,7 @@ export function parseHomePageRecords(homeRecords: any[]): HomePageContent {
   for (const record of homeRecords) {
     const f = record.fields || {};
     const key = String(f["Item Key"] || f["Key"] || f["Element Key"] || f["Label / Element"] || "").toLowerCase().trim();
+    const label = String(f["Label / Element"] || "").toLowerCase().trim();
     const text = (f["Text Content"] || f["Content"] || f["Text"] || f["Value"] || "").trim();
     const subText = (f["Sub-Text / Secondary"] || f["Sub-Text"] || f["Secondary"] || f["Subtitle"] || f["Badge"] || "").trim();
     const url = (f["Image / Link URL"] || f["Image URL"] || f["URL"] || f["Link"] || "").trim();
@@ -295,6 +346,42 @@ export function parseHomePageRecords(homeRecords: any[]): HomePageContent {
       if (text) result.partnership.supportedByName = text;
       if (subText) result.partnership.supportedByLabel = subText;
       if (url) result.partnership.supportedByLogoUrl = url;
+    } else if (key.includes("how_to_use_intro") || key.includes("how_to_use_text") || label.includes("how to use: intro") || label.includes("how to use intro")) {
+      if (text && result.howToUse) result.howToUse.intro = text;
+    } else if (key.includes("how_to_use_title") || label.includes("how to use: modal title") || label.includes("how to use title")) {
+      if (text && result.howToUse) result.howToUse.title = text;
+    } else if (key.includes("how_to_use_actions") || key.includes("how_to_use_item_1") || label.includes("how to use: actions") || label === "actions") {
+      if (result.howToUse) {
+        const item = result.howToUse.items.find(i => i.name === "Actions");
+        if (item) {
+          if (subText) item.heading = subText;
+          if (text) item.description = text;
+        }
+      }
+    } else if (key.includes("how_to_use_pathways") || key.includes("how_to_use_item_2") || label.includes("how to use: implementation pathways") || label.includes("how to use: pathways")) {
+      if (result.howToUse) {
+        const item = result.howToUse.items.find(i => i.name === "Implementation Pathways");
+        if (item) {
+          if (subText) item.heading = subText;
+          if (text) item.description = text;
+        }
+      }
+    } else if (key.includes("how_to_use_guidance") || key.includes("how_to_use_item_3") || label.includes("how to use: implementation guidance") || label.includes("how to use: guidance")) {
+      if (result.howToUse) {
+        const item = result.howToUse.items.find(i => i.name === "Implementation Guidance");
+        if (item) {
+          if (subText) item.heading = subText;
+          if (text) item.description = text;
+        }
+      }
+    } else if (key.includes("how_to_use_journeys") || key.includes("how_to_use_item_4") || label.includes("how to use: country journeys") || label.includes("how to use: journeys")) {
+      if (result.howToUse) {
+        const item = result.howToUse.items.find(i => i.name === "Country Journeys");
+        if (item) {
+          if (subText) item.heading = subText;
+          if (text) item.description = text;
+        }
+      }
     }
   }
 
@@ -318,6 +405,12 @@ export function parseHomePageRecords(homeRecords: any[]): HomePageContent {
     if (f["Supported By Label"]) result.partnership.supportedByLabel = f["Supported By Label"];
     if (f["Supported By Name"]) result.partnership.supportedByName = f["Supported By Name"];
     if (f["Supported By Logo"]) result.partnership.supportedByLogoUrl = f["Supported By Logo"];
+    if (f["How to Use Intro"] || f["How to Use Description"]) {
+      if (result.howToUse) result.howToUse.intro = f["How to Use Intro"] || f["How to Use Description"];
+    }
+    if (f["How to Use Title"]) {
+      if (result.howToUse) result.howToUse.title = f["How to Use Title"];
+    }
   }
 
   return result;
@@ -361,7 +454,7 @@ export function parseCountryJourneyRecords(
       summary: f["Summary"] || "",
       keyMechanisms: [],
       cardImage: "",
-      themeColor: f["Theme Color"] || "#3c4799",
+      themeColor: f["Theme Color"] || "#3B877E",
       headerSubtitle: `• ${f["Country Name"] || countryId} Deep Dive`,
       headerTitle: `${f["Country Name"] || countryId}’s Multilevel Governance and Implementation Journey`,
       headerDescription: f["Summary"] || "",

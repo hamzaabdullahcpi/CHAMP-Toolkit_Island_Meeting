@@ -1,0 +1,50 @@
+PIDG and NSIA backing InfraCredit
+ to crowd in institutional investors. 
+5.3. Colla
+borative Portfolio Implementation Environments
+Overview
+What it is: 
+A collaborative portfolio implementation environment is a place-based setup where public, private and civic actors jointly implement, test and adapt a portfolio of mutually reinforcing interventions around a shared transition mission
+.
+ 
+These place-based initiatives go beyond 
+individual pilots or project-level coordination activities. Instead, 
+they
+ create a shared, ongoing environment where governance, finance, procurement, regulations
+, organizational cultures 
+and technologies are aligned around a common mission
+, such as 
+climate action.
+ 
+These implementation environments help generate the evidence, partnerships and institutional changes needed to move successful interventions toward investment and scale.
+Why it is important
+: 
+Developing a portfolio and the governance and finance arrangements around it is not sufficient on its own; climate portfolios also need collaborative implementation environments where public, private and civic actors can joint
+ly contribute, deliver, learn and adapt
+. Without that environment, portfolios can fragment into isolated projects, learning is harder to share, and the system conditions needed for scale do not change.
+Key actors: 
+City and subnational governments, relevant national ministries and agencies, utilities and infrastructure owners, property owners and developers, businesses and solution providers, financiers and investors, procurement actors, 
+academia
+ 
+and
+ civil-society
+Implementation guidance
+The below actions could help create collaborative portfolio environments
+. 
+Anchor implementation in a locally relevant mission and system boundary.
+ Connect it to the city’s climate/investment priorities and, where possible, national climate priorities, rather than starting with a technology or individual project.
+Map the system, actors, structural barriers and opportunities before selecting solutions.
+ This is important because the system demonstrator experience showed that starting with existing solutions often reproduces incremental pilots rather than creating space for more transformative approaches.
+Start with a real local testbed where the portfolio can be implemented against actual users, assets and constraints.
+ It should be bounded enough to manage but expansive enough to generate evidence for scale and expose the governance, infrastructure or market challenges to overcome. 
+Convene the delivery ecosystem and keep it aligned through continuous orchestration.
+ 
+While 
+local government
+s
+ 
+could 
+anchor the 
+portfolio implementation 
+process, 
+it

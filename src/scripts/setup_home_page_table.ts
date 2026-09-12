@@ -141,8 +141,8 @@ async function createHomePageTable() {
       "Label / Element": "Hero Background Image",
       "Item Key": "hero_image_url",
       "Section": "Hero Banner",
-      "Image / Link URL": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1920&q=80",
-      "Text Content": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1920&q=80",
+      "Image / Link URL": "/images/hero-city.jpg",
+      "Text Content": "/images/hero-city.jpg",
       "Notes / Guidance": "Background city photography displayed in the hero banner header"
     },
     {

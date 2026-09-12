@@ -53,13 +53,13 @@ function CollapsibleList({
           >
             <div className="p-6 pt-3 bg-surface border-t border-line space-y-4">
               {preamble && (
-                <p className="text-ink leading-relaxed font-light text-[15px] mb-2">{preamble}</p>
+                <p className="body-text-sm leading-relaxed mb-2">{preamble}</p>
               )}
               <ul className="space-y-3.5">
                 {items.map((item, idx) => {
                   const cleanedItem = item.replace(/^(?:[-*+•—–·◦⁃]|\d+[\.\)])\s*/, '').trim();
                   return (
-                    <li key={idx} className="flex items-start gap-3.5 text-ink leading-relaxed font-light text-[15px]">
+                    <li key={idx} className="body-text-sm flex items-start gap-3.5 leading-relaxed">
                       <div 
                         className="w-4 h-4 mt-[5px] shrink-0 flex items-center justify-center"
                         style={{ color: theme?.hex || 'var(--accent)' }}
@@ -79,12 +79,12 @@ function CollapsibleList({
   );
 }
 
-function KeyActors({ actors, theme }: { actors: string[], theme?: ActionTheme }) {
+function TargetActors({ actors, title = "Target Actors", theme }: { actors: string[], title?: string, theme?: ActionTheme }) {
   if (!actors || actors.length === 0) return null;
   return (
-    <div className="mt-8 p-6 bg-paper border border-line rounded-none">
+    <div className="p-6 bg-paper border border-line rounded-none">
       <h4 className="text-[12px] font-bold text-ink-muted uppercase tracking-widest mb-3.5">
-        Key Actors
+        {title}
       </h4>
       <div className="flex flex-wrap gap-2">
         {actors.map((actor, idx) => (
@@ -129,7 +129,7 @@ function ExpandableText({ title, content, theme }: { title: string, content: str
   return (
     <div className="flex flex-col h-full">
       {title && <h4 className="text-[12px] font-bold text-ink-muted uppercase tracking-widest mb-3">{title}</h4>}
-      <div className="text-ink leading-relaxed font-light text-[15px]">
+      <div className="body-text-sm leading-relaxed">
         {!isLong ? (
           <p>{content}</p>
         ) : !expanded ? (
@@ -300,9 +300,9 @@ function ExpandableBox({ title, content, link, theme }: { title: string, content
   const [expanded, setExpanded] = useState(false);
   if (!content) return null;
   
-  const accentColor = theme?.hex || '#3C4799';
-  const bgColor = theme?.bgSubtle || '#F0F4FA';
-  const borderColor = theme?.borderSubtle || 'rgba(60, 71, 153, 0.2)';
+  const accentColor = theme?.hex || '#3B877E';
+  const bgColor = theme?.bgSubtle || '#EEF5F3';
+  const borderColor = theme?.borderSubtle || 'rgba(59, 135, 126, 0.2)';
   
   return (
     <div 
@@ -343,7 +343,7 @@ function ExpandableBox({ title, content, link, theme }: { title: string, content
           >
             <div className="pt-5 border-t border-line mt-5">
               <div className="mb-4">
-                <RichTextRenderer text={content} textClass="text-ink/90 leading-[1.8] font-light text-[15px]" />
+                <RichTextRenderer text={content} textClass="body-text-sm leading-[1.8]" />
               </div>
               {link && (
                 <a 
@@ -381,9 +381,9 @@ function ConceptBoxCard({ box, theme }: { box: any, theme?: ActionTheme }) {
   if (!box) return null;
 
   const contentText = box.fullText || box.excerpt || box.content || '';
-  const accentColor = theme?.hex || '#3C4799';
-  const bgColor = theme?.bgSubtle || '#F0F4FA';
-  const borderColor = theme?.borderSubtle || 'rgba(60, 71, 153, 0.25)';
+  const accentColor = theme?.hex || '#3B877E';
+  const bgColor = theme?.bgSubtle || '#EEF5F3';
+  const borderColor = theme?.borderSubtle || 'rgba(59, 135, 126, 0.25)';
 
   return (
     <div 
@@ -424,7 +424,7 @@ function ConceptBoxCard({ box, theme }: { box: any, theme?: ActionTheme }) {
             className="overflow-hidden"
           >
             <div className="pt-5 mt-4 border-t border-line space-y-4">
-              <RichTextRenderer text={contentText} textClass="text-ink/90 leading-[1.8] font-light text-[15px]" />
+              <RichTextRenderer text={contentText} textClass="body-text-sm leading-[1.8]" />
               
               {box.link && (
                 <div className="pt-2">
@@ -459,36 +459,70 @@ function ConceptBoxCard({ box, theme }: { box: any, theme?: ActionTheme }) {
   );
 }
 
-function SmartClampedText({ text }: { text: string }) {
+function SmartClampedStep({ 
+  title, 
+  content, 
+  isPreamble 
+}: { 
+  title?: string; 
+  content?: string; 
+  isPreamble?: boolean;
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const THRESHOLD = 210;
-  const isLong = Boolean(text && text.length > THRESHOLD);
+  const cleanTitle = (title || '').trim().replace(/^\*\*+|\*\*+$/g, '').trim().replace(/[:.]\s*$/, '');
+  const rawContent = (content || '').trim();
 
-  if (!text) return null;
+  // If no content, just render title (or vice versa)
+  const fullText = cleanTitle && rawContent ? `${cleanTitle}: ${rawContent}` : (cleanTitle || rawContent);
+  const THRESHOLD = 220;
+  const isLong = Boolean(rawContent && rawContent.length > THRESHOLD);
 
-  if (!isLong) {
+  if (!fullText) return null;
+
+  if (isPreamble || !cleanTitle) {
     return (
-      <p className="text-ink leading-[1.7] font-light text-[15px]">
-        {text}
+      <p className="body-text-sm leading-[1.7] text-ink/90">
+        {renderFormattedInline(fullText)}
       </p>
     );
   }
 
-  // Find a natural word boundary near THRESHOLD
-  const getTruncatedSnippet = (str: string, maxLen: number) => {
+  // Find a natural word boundary for content near THRESHOLD
+  const getTruncatedContent = (str: string, maxLen: number) => {
     const sub = str.slice(0, maxLen);
     const lastSpace = sub.lastIndexOf(' ');
-    const cut = (lastSpace > 80 ? sub.slice(0, lastSpace) : sub).trim();
+    const cut = (lastSpace > 60 ? sub.slice(0, lastSpace) : sub).trim();
     return cut.replace(/[,;:.!?\-—]+$/, '');
   };
 
-  const truncated = getTruncatedSnippet(text, THRESHOLD);
+  const truncated = isLong ? getTruncatedContent(rawContent, THRESHOLD) : rawContent;
 
   return (
-    <p className="text-ink leading-[1.7] font-light text-[15px] transition-all">
-      {!isExpanded ? (
+    <p className="body-text-sm leading-[1.7] text-ink/90">
+      {cleanTitle && (
+        <strong className="font-semibold text-ink">
+          {cleanTitle}
+          {rawContent ? ': ' : ''}
+        </strong>
+      )}
+      {!isLong || isExpanded ? (
         <>
-          <span>{truncated}...</span>
+          <span>{renderFormattedInline(rawContent)}</span>
+          {isLong && (
+            <button
+              type="button"
+              onClick={() => setIsExpanded(false)}
+              className="inline-flex items-center justify-center ml-1.5 p-0.5 rounded text-accent/75 hover:text-accent hover:bg-accent/10 align-middle transition-colors cursor-pointer focus:outline-none"
+              title="Collapse guidance"
+              aria-label="Collapse guidance"
+            >
+              <ChevronUp size={14} className="stroke-[2.5]" />
+            </button>
+          )}
+        </>
+      ) : (
+        <>
+          <span>{renderFormattedInline(truncated)}...</span>
           <button
             type="button"
             onClick={() => setIsExpanded(true)}
@@ -497,19 +531,6 @@ function SmartClampedText({ text }: { text: string }) {
             aria-label="Expand guidance"
           >
             <ChevronDown size={14} className="stroke-[2.5]" />
-          </button>
-        </>
-      ) : (
-        <>
-          <span>{text}</span>
-          <button
-            type="button"
-            onClick={() => setIsExpanded(false)}
-            className="inline-flex items-center justify-center ml-1.5 p-0.5 rounded text-accent/75 hover:text-accent hover:bg-accent/10 align-middle transition-colors cursor-pointer focus:outline-none"
-            title="Collapse guidance"
-            aria-label="Collapse guidance"
-          >
-            <ChevronUp size={14} className="stroke-[2.5]" />
           </button>
         </>
       )}
@@ -521,36 +542,29 @@ function getCleanStep(title?: string, content?: string) {
   const t = (title || '').trim();
   const c = (content || '').trim();
 
-  if (!c) return { text: t };
-  if (!t) return { text: c };
+  const cleanTitleRaw = t.replace(/^\*\*+|\*\*+$/g, '').trim();
+  const cleanTitle = cleanTitleRaw.replace(/[:.]\s*$/, '');
+
+  if (!c && !cleanTitle) return { title: '', content: '' };
+  if (!c) return { title: cleanTitle, content: '' };
+  if (!cleanTitle) return { title: '', content: c };
 
   const normalize = (s: string) => s.trim().replace(/\s+/g, ' ').replace(/[.\s]+$/, '').toLowerCase();
-  const normT = normalize(t);
+  const normT = normalize(cleanTitleRaw);
   const normC = normalize(c);
 
-  // Exact or casing/whitespace match
+  // Exact match
   if (normT === normC) {
-    return { text: c.length >= t.length ? c : t };
+    return { title: cleanTitle, content: '' };
   }
 
-  // Truncated title or prefix match
-  if (t.endsWith('...') || normC.startsWith(normT.replace(/\.{3}$/, ''))) {
-    return { text: c };
+  // If content already starts with the title
+  if (normC.startsWith(normT)) {
+    const remaining = c.slice(cleanTitleRaw.length).replace(/^[:.\s-]+/, '').trim();
+    return { title: cleanTitle, content: remaining };
   }
 
-  // Content starts with or contains title
-  if (normC.startsWith(normT) || normC.includes(normT)) {
-    return { text: c };
-  }
-
-  // Title contains content
-  if (normT.includes(normC)) {
-    return { text: t };
-  }
-
-  // If title and content are distinct, combine into a single uniform continuous format (no separate bold titles)
-  const cleanTitle = t.replace(/[:.]\s*$/, '');
-  return { text: `${cleanTitle}: ${c}` };
+  return { title: cleanTitle, content: c };
 }
 
 function GuidanceList({ items, theme }: { items: any[], theme?: ActionTheme }) {
@@ -561,14 +575,18 @@ function GuidanceList({ items, theme }: { items: any[], theme?: ActionTheme }) {
     typeof firstItem === 'string' ? firstItem : firstItem.title, 
     typeof firstItem === 'string' ? firstItem : firstItem.content
   );
+  const firstCombined = firstClean.title && firstClean.content 
+    ? `${firstClean.title}: ${firstClean.content}` 
+    : (firstClean.title || firstClean.content);
+
   const isPreamble = items.length > 1 && (
-    firstClean.text.toLowerCase().includes('following') ||
-    firstClean.text.toLowerCase().includes('iterative') ||
-    firstClean.text.toLowerCase().includes('process that') ||
-    firstClean.text.length < 120
+    firstCombined.toLowerCase().includes('following') ||
+    firstCombined.toLowerCase().includes('iterative') ||
+    firstCombined.toLowerCase().includes('process that') ||
+    firstCombined.length < 120
   );
 
-  const preambleText = isPreamble ? firstClean.text : null;
+  const preambleItem = isPreamble ? firstClean : null;
   const stepItems = isPreamble ? items.slice(1) : items;
 
   const callouts: any[] = [];
@@ -585,16 +603,16 @@ function GuidanceList({ items, theme }: { items: any[], theme?: ActionTheme }) {
 
   return (
     <div className="space-y-6">
-      {preambleText && (
-        <p className="text-ink leading-relaxed font-light text-[15.5px] pb-1 text-ink/80">
-          {preambleText}
-        </p>
+      {preambleItem && (
+        <div className="pb-1">
+          <SmartClampedStep title={preambleItem.title} content={preambleItem.content} isPreamble={true} />
+        </div>
       )}
       
       <div className="space-y-4">
         {cleanPoints.map((item, idx) => {
-          const { text } = getCleanStep(item.title, item.content);
-          if (!text) return null;
+          const { title, content } = getCleanStep(item.title, item.content);
+          if (!title && !content) return null;
 
           return (
             <div 
@@ -619,7 +637,7 @@ function GuidanceList({ items, theme }: { items: any[], theme?: ActionTheme }) {
                 {idx + 1}
               </div>
               <div className="flex-1 min-w-0">
-                <SmartClampedText text={text} />
+                <SmartClampedStep title={title} content={content} />
               </div>
             </div>
           );
@@ -640,7 +658,6 @@ function GuidanceList({ items, theme }: { items: any[], theme?: ActionTheme }) {
 function PathwayCard({ 
   pathway, 
   onSelectExample,
-  initialTab = 'overview',
   theme,
   actionId,
   onNavigateToCountry
@@ -652,12 +669,6 @@ function PathwayCard({
   actionId?: number;
   onNavigateToCountry?: (countryId: string, actionId?: number) => void;
 }) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'guidance'>(initialTab);
-
-  useEffect(() => {
-    setActiveTab(initialTab);
-  }, [initialTab, pathway]);
-
   if (!pathway) return null;
 
   const isAction5 = Number(actionId) === 5;
@@ -676,7 +687,7 @@ function PathwayCard({
     b.section && b.section.toLowerCase().includes('overview')
   );
 
-  const resources = pathway.resources || [];
+  const overviewText = pathway.overview || '';
 
   const renderResourceCard = (example: any, i: number) => {
     const isTool = String(example.type || '').toLowerCase().includes('tool') ||
@@ -697,7 +708,7 @@ function PathwayCard({
         connBody = directConn;
       }
     } else {
-      // Fallback lorem ipsum placeholder on frontend as requested
+      // Fallback placeholder on frontend as requested
       connPrefix = isTool ? 'When to use this:' : 'Why see this:';
       connBody = isTool 
         ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.'
@@ -733,13 +744,13 @@ function PathwayCard({
           style={{ backgroundColor: theme ? theme.hex : undefined }}
         />
         
-        {/* Tag Badge: Tool vs Illustrative Example (Both have identical theme colors) */}
+        {/* Tag Badge: Tool vs Illustrative Example */}
         <div className="flex items-center justify-between gap-2 mb-2">
           <span 
             className="inline-flex items-center px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-none"
             style={{
-              backgroundColor: theme ? theme.bgMedium : '#eef2ff',
-              color: theme ? theme.darkHex : '#3730a3'
+              backgroundColor: theme ? theme.bgMedium : '#E8F3F1',
+              color: theme ? theme.darkHex : '#1F4E48'
             }}
           >
             {isTool ? 'Tool' : (example.type || 'Illustrative Example')}
@@ -765,10 +776,10 @@ function PathwayCard({
           {example.title}
         </h5>
 
-        {/* Connection Line: identical vertical border color for both "Why see this:" and "When to use this:" */}
+        {/* Connection Line */}
         <div 
           className="text-[11.5px] leading-snug my-1.5 py-1 px-2.5 bg-surface border-l-2 text-ink"
-          style={{ borderLeftColor: theme ? theme.hex : '#2563eb' }}
+          style={{ borderLeftColor: theme ? theme.hex : '#3B877E' }}
         >
           <span className="font-semibold text-ink">
             {connPrefix}{' '}
@@ -784,7 +795,7 @@ function PathwayCard({
 
         {example.subExamples && example.subExamples.length > 0 && (
           <div className="mt-2 pt-1.5 border-t border-line/60 flex items-center gap-1.5 text-[10.5px] font-medium text-ink-muted">
-            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: theme?.hex || '#2563eb' }} />
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: theme?.hex || '#3B877E' }} />
             <span>Includes {example.subExamples.length} {example.subExamples.length === 1 ? 'case study' : 'case studies'}</span>
           </div>
         )}
@@ -806,267 +817,95 @@ function PathwayCard({
         </h3>
       </div>
 
-      {/* Tabs Navigation: Just Two Tabs */}
-      <div className="flex border-b border-line bg-paper overflow-x-auto hide-scrollbar shrink-0">
-        <button 
-          type="button"
-          onClick={() => setActiveTab('overview')}
-          style={activeTab === 'overview' && theme ? {
-            color: theme.darkHex,
-            borderBottom: `2px solid ${theme.hex}`,
-            backgroundColor: theme.bgLight,
-          } : {}}
-          className={`flex-1 py-3.5 px-6 text-[13px] font-bold uppercase tracking-widest whitespace-nowrap transition-colors focus:outline-none cursor-pointer rounded-none
-            ${activeTab === 'overview' ? 'text-accent border-b-2 border-accent bg-accent/5' : 'text-ink-muted hover:text-ink hover:bg-surface'}`}
-        >
-          Overview
-        </button>
-        <button 
-          type="button"
-          onClick={() => setActiveTab('guidance')}
-          style={activeTab === 'guidance' && theme ? {
-            color: theme.darkHex,
-            borderBottom: `2px solid ${theme.hex}`,
-            backgroundColor: theme.bgLight,
-          } : {}}
-          className={`flex-1 py-3.5 px-6 text-[13px] font-bold uppercase tracking-widest whitespace-nowrap transition-colors focus:outline-none cursor-pointer rounded-none
-            ${activeTab === 'guidance' ? 'text-accent border-b-2 border-accent bg-accent/5' : 'text-ink-muted hover:text-ink hover:bg-surface'}`}
-        >
-          Implementation Guidance
-        </button>
-      </div>
-
-      {/* Tab Content */}
-      <div className="p-6 md:p-8 min-h-[350px]">
-        <AnimatePresence mode="wait">
-          
-          {/* 1. Overview Tab */}
-          {activeTab === 'overview' && (
-            <motion.div
-              key="overview"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="space-y-8"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {pathway.whatItIs && (
-                  <ExpandableText title="What it is" content={pathway.whatItIs} theme={theme} />
-                )}
-                {pathway.whyItIsNeeded && (
-                  <ExpandableText title="Why it is needed" content={pathway.whyItIsNeeded} theme={theme} />
-                )}
-                {!pathway.whatItIs && pathway.overview && (
-                  <ExpandableText title="Overview" content={pathway.overview} theme={theme} />
-                )}
+      {/* Unified Single Tab / View */}
+      <div className="p-6 md:p-8 space-y-8 min-h-[350px]">
+        {/* 1. Overview Section */}
+        {overviewText && (
+          <div className="space-y-3">
+            <h4 className="text-[12px] font-bold text-ink-muted uppercase tracking-widest">
+              Overview
+            </h4>
+            <RichTextRenderer text={overviewText} textClass="body-text-sm leading-relaxed text-ink/90" />
+            
+            {overviewConceptBoxes.length > 0 && (
+              <div className="pt-3 space-y-3">
+                {overviewConceptBoxes.map((box: any, i: number) => (
+                  <ConceptBoxCard key={i} box={box} theme={theme} />
+                ))}
               </div>
-
-              {pathway.keyActors && pathway.keyActors.length > 0 && (
-                <KeyActors actors={pathway.keyActors} theme={theme} />
-              )}
-
-              {overviewConceptBoxes.length > 0 && (
-                <div className="pt-6 border-t border-line space-y-4">
-                  {overviewConceptBoxes.map((box: any, i: number) => (
-                    <ConceptBoxCard key={i} box={box} theme={theme} />
-                  ))}
-                </div>
-              )}
-            </motion.div>
-          )}
-
-          {/* 2. Implementation Guidance Tab */}
-          {activeTab === 'guidance' && (
-            <motion.div
-              key="guidance"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="space-y-8"
-            >
-              {/* Guidance points */}
-              {pathway.implementationGuidance && pathway.implementationGuidance.length > 0 && (
-                <div>
-                  <GuidanceList items={pathway.implementationGuidance} theme={theme} />
-                </div>
-              )}
-
-              {/* Guidance concept boxes */}
-              {guidanceConceptBoxes.length > 0 && (
-                <div className="pt-4 border-t border-line space-y-3">
-                  {guidanceConceptBoxes.map((box: any, i: number) => (
-                    <ConceptBoxCard key={i} box={box} theme={theme} />
-                  ))}
-                </div>
-              )}
-
-              {/* Key Resources Section: Tightly packed compact cards */}
-              {displayExamples && displayExamples.length > 0 && (
-                <div className="pt-6 border-t border-line space-y-4">
-                  <div className="flex items-center gap-2.5">
-                    <h4 className="font-heading font-medium text-lg md:text-xl text-ink">
-                      Key Resources
-                    </h4>
-                    <span 
-                      className="px-2 py-0.5 text-[11px] font-bold rounded-none"
-                      style={{ backgroundColor: theme?.bgMedium, color: theme?.darkHex }}
-                    >
-                      {displayExamples.length}
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                    {displayExamples.map((example: any, i: number) => renderResourceCard(example, i))}
-                  </div>
-
-                  {exampleConceptBoxes.length > 0 && (
-                    <div className="pt-4 border-t border-line space-y-3">
-                      {exampleConceptBoxes.map((box: any, i: number) => (
-                        <ConceptBoxCard key={i} box={box} theme={theme} />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Transferability Considerations & Enabling Conditions (kept collapsed by default) */}
-              {((pathway.transferability && pathway.transferability.length > 0) || 
-                (pathway.enablingConditions && pathway.enablingConditions.length > 0)) && (
-                <div className="pt-6 border-t border-line space-y-3">
-                  {pathway.transferability && pathway.transferability.length > 0 && (
-                    <CollapsibleList 
-                      title={pathway.transferabilityTitle || "Transferability Considerations"} 
-                      items={pathway.transferability} 
-                      preamble={pathway.transferabilityPreamble}
-                      theme={theme} 
-                      defaultOpen={false} 
-                    />
-                  )}
-                  {pathway.enablingConditions && pathway.enablingConditions.length > 0 && (
-                    <CollapsibleList title="Enabling Conditions" items={pathway.enablingConditions} theme={theme} defaultOpen={false} />
-                  )}
-                </div>
-              )}
-            </motion.div>
-          )}
-
-        </AnimatePresence>
-      </div>
-
-      {/* Dynamic Additional Resources Footer */}
-      <div className="p-6 md:px-8 border-t border-line bg-surface/40 mt-auto shrink-0">
-        <h4 className="text-[11px] font-bold text-ink-muted uppercase tracking-wider mb-4">
-          Additional Resources
-        </h4>
-        
-        {resources.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-            {resources.map((res: any, idx: number) => (
-              <a 
-                key={idx}
-                href={res.link || '#'} 
-                target="_blank" 
-                rel="noreferrer"
-                className="flex items-center justify-between p-3 bg-paper border border-line hover:shadow-2xs transition-all group rounded-none focus:outline-none"
-                onMouseEnter={(e) => {
-                  if (theme) {
-                    e.currentTarget.style.borderColor = theme.borderMedium;
-                    e.currentTarget.style.backgroundColor = theme.bgSubtle;
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (theme) {
-                    e.currentTarget.style.borderColor = '';
-                    e.currentTarget.style.backgroundColor = '';
-                  }
-                }}
-              >
-                <div className="min-w-0 flex-1 pr-2">
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    {res.type && (
-                      <span 
-                        className="text-[9.5px] font-bold uppercase tracking-wider px-1.5 py-0.2 rounded-none"
-                        style={{
-                          backgroundColor: theme ? theme.bgLight : 'rgba(0,128,128,0.1)',
-                          color: theme ? theme.darkHex : 'var(--accent)'
-                        }}
-                      >
-                        {res.type}
-                      </span>
-                    )}
-                    {res.publisher && (
-                      <span className="text-[11px] font-medium text-ink-muted truncate">
-                        {res.publisher}
-                      </span>
-                    )}
-                  </div>
-                  <h5 
-                    className="text-[13px] font-medium text-ink transition-colors leading-snug truncate mt-1"
-                    onMouseEnter={(e) => {
-                      if (theme) e.currentTarget.style.color = theme.darkHex;
-                    }}
-                    onMouseLeave={(e) => {
-                      if (theme) e.currentTarget.style.color = '';
-                    }}
-                  >
-                    {res.title}
-                  </h5>
-                </div>
-                <ArrowUpRight 
-                  size={14} 
-                  className="text-ink-muted group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-1" 
-                  style={{ color: theme ? theme.hex : undefined }}
-                />
-              </a>
-            ))}
+            )}
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-            <a 
-              href="https://www.climatefinancelab.org" 
-              target="_blank" 
-              rel="noreferrer"
-              className="flex items-center justify-between p-3 bg-paper border border-line hover:shadow-2xs transition-all group rounded-none focus:outline-none"
-              onMouseEnter={(e) => {
-                if (theme) {
-                  e.currentTarget.style.borderColor = theme.borderMedium;
-                  e.currentTarget.style.backgroundColor = theme.bgSubtle;
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (theme) {
-                  e.currentTarget.style.borderColor = '';
-                  e.currentTarget.style.backgroundColor = '';
-                }
-              }}
-            >
-              <div className="min-w-0 flex-1">
-                <span 
-                  className="text-[9.5px] font-bold uppercase tracking-wider block"
-                  style={{ color: theme ? theme.darkHex : 'var(--accent)' }}
-                >
-                  Framework
-                </span>
-                <span 
-                  className="text-[13px] font-medium text-ink transition-colors truncate block mt-0.5"
-                  onMouseEnter={(e) => {
-                    if (theme) e.currentTarget.style.color = theme.darkHex;
-                  }}
-                  onMouseLeave={(e) => {
-                    if (theme) e.currentTarget.style.color = '';
-                  }}
-                >
-                  CCFLA Multilevel Climate Governance Library
-                </span>
+        )}
+
+        {/* 2. Implementation Guidance for National Governments */}
+        {pathway.implementationGuidance && pathway.implementationGuidance.length > 0 && (
+          <div className="pt-8 border-t border-line space-y-5">
+            <h4 className="font-heading font-medium text-lg md:text-xl text-ink">
+              Implementation Guidance for National Governments
+            </h4>
+
+            <GuidanceList items={pathway.implementationGuidance} theme={theme} />
+
+            {guidanceConceptBoxes.length > 0 && (
+              <div className="pt-2 space-y-3">
+                {guidanceConceptBoxes.map((box: any, i: number) => (
+                  <ConceptBoxCard key={i} box={box} theme={theme} />
+                ))}
               </div>
-              <ArrowUpRight 
-                size={14} 
-                className="text-ink-muted group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-1" 
-                style={{ color: theme ? theme.hex : undefined }}
-              />
-            </a>
+            )}
+          </div>
+        )}
+
+        {/* 3. Illustrative Examples and Tools */}
+        {((displayExamples && displayExamples.length > 0) || exampleConceptBoxes.length > 0) && (
+          <div className="pt-8 border-t border-line space-y-4">
+            <div className="flex items-center gap-2.5">
+              <h4 className="font-heading font-medium text-lg md:text-xl text-ink">
+                Illustrative Examples and Tools
+              </h4>
+              {displayExamples && displayExamples.length > 0 && (
+                <span 
+                  className="px-2 py-0.5 text-[11px] font-bold rounded-none"
+                  style={{ backgroundColor: theme?.bgMedium, color: theme?.darkHex }}
+                >
+                  {displayExamples.length}
+                </span>
+              )}
+            </div>
+
+            {displayExamples && displayExamples.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                {displayExamples.map((example: any, i: number) => renderResourceCard(example, i))}
+              </div>
+            )}
+
+            {exampleConceptBoxes.length > 0 && (
+              <div className="pt-2 space-y-3">
+                {exampleConceptBoxes.map((box: any, i: number) => (
+                  <ConceptBoxCard key={i} box={box} theme={theme} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 4. Target Actors */}
+        {pathway.keyActors && pathway.keyActors.length > 0 && (
+          <div className="pt-8 border-t border-line">
+            <TargetActors actors={pathway.keyActors} title="Target Actors" theme={theme} />
+          </div>
+        )}
+
+        {/* 5. Transferability Considerations */}
+        {pathway.transferability && pathway.transferability.length > 0 && (
+          <div className="pt-8 border-t border-line space-y-3">
+            <CollapsibleList 
+              title={pathway.transferabilityTitle || "Transferability Considerations"} 
+              items={pathway.transferability} 
+              preamble={pathway.transferabilityPreamble}
+              theme={theme} 
+              defaultOpen={false} 
+            />
           </div>
         )}
       </div>
@@ -1133,7 +972,6 @@ export function StepView({
   const [isSystemsLogicOpen, setIsSystemsLogicOpen] = useState(false);
   const [activePathwayIndex, setActivePathwayIndex] = useState(0);
   const [selectedExample, setSelectedExample] = useState<any | null>(null);
-  const [pathwayTab, setPathwayTab] = useState<'overview' | 'guidance'>('overview');
 
   const actionTheme = getActionTheme(step?.id);
 
@@ -1142,10 +980,8 @@ export function StepView({
     if (initialDeepLink) {
       setActivePathwayIndex(initialDeepLink.pathwayIndex || 0);
       if (initialDeepLink.example) {
-        setPathwayTab('guidance');
         setSelectedExample(initialDeepLink.example);
       } else {
-        setPathwayTab('overview');
         setSelectedExample(null);
       }
       onClearDeepLink?.();
@@ -1156,7 +992,6 @@ export function StepView({
   useEffect(() => {
     if (!initialDeepLink) {
       setActivePathwayIndex(0);
-      setPathwayTab('overview');
       setSelectedExample(null);
       setIsSystemsLogicOpen(false);
     }
@@ -1244,10 +1079,10 @@ export function StepView({
           })()}
         </div>
         
-        <h1 className="font-heading text-4xl md:text-5xl font-medium text-ink mb-6 leading-[1.15]">{step.title}</h1>
-        
+        <h1 className="title-h1 mb-6">{step.title}</h1>
+
         {step.description && (
-          <p className="text-lg md:text-xl text-ink-muted leading-relaxed font-light">{step.description}</p>
+          <p className="body-text leading-relaxed">{step.description}</p>
         )}
       </div>
 
@@ -1255,10 +1090,10 @@ export function StepView({
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="font-heading text-2xl md:text-3xl font-medium text-ink">
+            <h2 className="title-h2">
               Implementation Pathways
             </h2>
-            <p className="text-sm text-ink-muted font-light mt-1">
+            <p className="body-text-sm mt-1">
               Select a pathway to view detailed overview, key resources, and implementation guidance.
             </p>
           </div>
@@ -1274,7 +1109,6 @@ export function StepView({
                   key={idx}
                   onClick={() => {
                     setActivePathwayIndex(idx);
-                    setPathwayTab('overview');
                   }}
                   style={isSelected ? {
                     borderColor: actionTheme.hex,
@@ -1389,7 +1223,7 @@ export function StepView({
                         className="border-l-2 pl-5 md:pl-6 py-1"
                         style={{ borderColor: actionTheme.hex }}
                       >
-                        <p className="text-ink font-light text-[15.5px] md:text-[16px] leading-[1.8]">
+                        <p className="body-text-sm leading-[1.8]">
                           {step.systemsLogic}
                         </p>
                       </div>
@@ -1419,7 +1253,6 @@ export function StepView({
                 <PathwayCard 
                   pathway={currentPathway} 
                   onSelectExample={setSelectedExample} 
-                  initialTab={pathwayTab}
                   theme={actionTheme}
                   actionId={Number(step.id)}
                   onNavigateToCountry={onNavigateToCountry}
@@ -1527,7 +1360,7 @@ export function StepView({
                 })()}
 
                 <div className="mb-6">
-                  <RichTextRenderer text={selectedExample.fullText || selectedExample.content || selectedExample.excerpt} textClass="text-ink leading-[1.8] font-light text-[16px] md:text-[17px]" />
+                  <RichTextRenderer text={selectedExample.fullText || selectedExample.content || selectedExample.excerpt} textClass="body-text-sm leading-[1.8]" />
                 </div>
                 {selectedExample.link && (
                   <div className="mb-6">

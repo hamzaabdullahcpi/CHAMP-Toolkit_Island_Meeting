@@ -55,64 +55,56 @@ export default function LandingPage({
       <HowToUseModal 
         isOpen={isHowToUseOpen}
         onClose={() => setIsHowToUseOpen(false)}
+        content={homePageData?.howToUse}
       />
 
-      {/* Full-bleed Hero Banner Section */}
-      <motion.div 
+      {/* Hero: full-bleed photo with a content panel contained inside it, flush to the right */}
+      <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="relative w-full overflow-hidden min-h-[50vh] lg:min-h-[55vh] flex flex-col justify-end group shadow-[0_20px_40px_-20px_rgba(0,0,0,0.15)] border-b border-line"
+        className="relative w-full h-[560px] sm:h-[620px] lg:h-[700px] overflow-hidden group"
       >
-        <div className="absolute inset-0 w-full h-full">
-          <img 
-            src={hero.imageUrl || "https://plus.unsplash.com/premium_photo-1697729968500-d0c63fd49bfa?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} 
-            alt="Sustainable City Skyline" 
-            className="w-full h-full object-cover transition-transform duration-[20s] ease-out group-hover:scale-105" 
-            referrerPolicy="no-referrer"
-          />
-          {/* Gradient overlay for depth and readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/65 to-ink/20"></div>
-        </div>
+        <img
+          src={hero.imageUrl || "/images/hero-city.jpg"}
+          alt="Aerial view of Stockholm's Södra Länken highway and Slussen transit interchange"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[20s] ease-out group-hover:scale-105"
+          referrerPolicy="no-referrer"
+        />
 
-        {/* Inner Content with responsive max-width and padding */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 pt-16 md:pt-20 pb-12 md:pb-16 flex flex-col items-start text-left justify-end">
+        {/* Content panel: contained within the photo, flush to the right edge. Shorter than the
+            photo so it stays visible above (mostly) and below the panel. */}
+        <div className="absolute right-0 bottom-8 md:bottom-10 w-full sm:w-[92%] md:w-[84%] lg:w-[78%] xl:w-[72%] bg-surface flex flex-col justify-center px-6 sm:px-10 lg:px-14 py-10">
           {hero.eyebrow && (
-            <div className="inline-flex items-center gap-3 px-4 py-2 border border-white/20 bg-black/40 backdrop-blur-md mb-6 rounded-sm">
-              <div className="w-1.5 h-1.5 bg-surface"></div>
-              <span className="text-[11px] font-bold text-surface uppercase tracking-[0.2em]">{hero.eyebrow}</span>
-            </div>
+            <span className="text-[11px] text-[#ED8439] uppercase tracking-[0.15em] mb-2">
+              {hero.eyebrow}
+            </span>
           )}
-          
-          <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-surface mb-6 leading-[1.05]">
-            {hero.titleBadge && (
-              <span className="bg-[#3c4799] text-white px-3 py-0.5 rounded-sm inline-block mr-2">
-                {hero.titleBadge}
-              </span>
-            )}
-            {hero.titleMain || "Toolkit"}
+
+          <h1 className="font-display font-bold text-[44px] sm:text-[52px] lg:text-[60px] leading-[1.1] text-[#163331] mb-4">
+            {hero.titleBadge}{hero.titleBadge && hero.titleMain ? " " : ""}{hero.titleMain || "Toolkit"}
             {hero.titleSub && (
-              <span className="block text-surface/80 mt-2 font-light text-4xl md:text-5xl lg:text-6xl">
+              <span className="block mt-1 font-light text-2xl sm:text-3xl lg:text-4xl">
                 {hero.titleSub}
               </span>
             )}
           </h1>
-          
+
           {hero.description && (
-            <p className="text-xl md:text-2xl text-surface/90 leading-relaxed font-light max-w-4xl mb-4">
+            <p className="body-text leading-relaxed mb-6">
               {hero.description}
             </p>
           )}
 
-          {/* Primary "How to use this Toolkit" button in Hero - filled with #3c4799 */}
+          {/* "How to use this Toolkit" link - plain text, same ink color as the rest of the site */}
           <button
             type="button"
             onClick={() => setIsHowToUseOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#3c4799] hover:bg-[#4856b8] text-white border border-[#3c4799] text-xs md:text-sm font-semibold shadow-lg hover:shadow-xl transition-all cursor-pointer rounded-none group"
+            className="inline-flex items-center gap-2 self-start text-ink text-xs md:text-sm font-semibold cursor-pointer group/btn hover:opacity-70 transition-opacity"
             aria-label="Open guide: How to use this Toolkit"
           >
-            <HelpCircle size={16} className="text-white shrink-0 group-hover:scale-105 transition-transform" />
-            <span>How to use this Toolkit</span>
+            <HelpCircle size={16} className="text-ink shrink-0 group-hover/btn:scale-105 transition-transform" />
+            <span className="underline underline-offset-4 decoration-ink/30">How to use this Toolkit</span>
           </button>
         </div>
       </motion.div>
@@ -154,10 +146,10 @@ export default function LandingPage({
         >
           <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16 bg-surface p-10 md:p-12 border border-line">
             <div className="md:w-5/12 space-y-6 flex flex-col justify-center">
-              <h2 className="font-heading font-bold text-3xl md:text-4xl text-ink leading-tight tracking-tight">
+              <h2 className="title-h2">
                 {partnership.title || "A Joint Contribution to CHAMP"}
               </h2>
-              <p className="text-lg text-ink-muted font-light leading-relaxed">
+              <p className="body-text leading-relaxed">
                 {renderFormattedText(partnership.description || "This toolkit is a strategic partnership between CCFLA and Viable Cities. A key goal of this toolkit is to showcase impactful multilevel governance initiatives championed in Sweden.")}
               </p>
 
