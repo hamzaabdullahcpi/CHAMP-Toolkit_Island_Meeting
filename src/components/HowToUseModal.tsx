@@ -89,16 +89,20 @@ export default function HowToUseModal({ isOpen, onClose, content }: HowToUseModa
                   key={index}
                   className="p-5 sm:p-6 bg-paper border border-line flex flex-col justify-start transition-all hover:border-[#3B877E]/50 hover:shadow-xs group"
                 >
-                  <div className="mb-2">
-                    <span className="text-[11px] font-bold text-[#3B877E] uppercase tracking-wider bg-[#3B877E]/10 px-2 py-0.5 border border-[#3B877E]/20 inline-block mb-2">
+                  <div className="flex items-start justify-between gap-3 mb-2.5">
+                    <span className="text-[11px] font-bold text-[#3B877E] uppercase tracking-wider bg-[#3B877E]/10 px-2 py-0.5 border border-[#3B877E]/20 inline-block">
                       {item.name}
                     </span>
-                    <h4 className="font-heading text-base sm:text-[17px] font-bold text-ink tracking-tight leading-snug">
-                      {item.heading}
-                    </h4>
+                    <span className="font-heading text-xl sm:text-2xl font-bold text-ink-muted/40 group-hover:text-[#3B877E] transition-colors leading-none select-none">
+                      0{index + 1}
+                    </span>
                   </div>
 
-                  <p className="body-text-sm text-ink-muted leading-relaxed mt-1">
+                  <h4 className="font-heading text-base sm:text-[17px] font-bold text-ink tracking-tight leading-snug mb-1.5">
+                    {item.heading}
+                  </h4>
+
+                  <p className="body-text-sm text-ink-muted leading-relaxed">
                     {item.description}
                   </p>
                 </div>
