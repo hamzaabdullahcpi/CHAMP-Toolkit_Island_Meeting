@@ -373,18 +373,20 @@ export default function CountryJourney({
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2 self-start sm:self-auto">
+                  <div className="flex items-center gap-1.5 shrink-0 self-start sm:self-auto whitespace-nowrap">
                     <button
+                      type="button"
                       onClick={expandAllActions}
-                      className="px-3 py-1.5 bg-surface border border-line rounded-none text-xs font-semibold text-ink hover:bg-paper transition-colors cursor-pointer"
+                      className="px-2.5 py-1 bg-surface hover:bg-paper border border-line rounded-none text-[11px] font-medium text-ink transition-colors cursor-pointer whitespace-nowrap"
                     >
-                      Expand All
+                      Expand all
                     </button>
                     <button
+                      type="button"
                       onClick={collapseAllActions}
-                      className="px-3 py-1.5 bg-surface border border-line rounded-none text-xs font-semibold text-ink-muted hover:text-ink hover:bg-paper transition-colors cursor-pointer"
+                      className="px-2.5 py-1 bg-surface hover:bg-paper border border-line rounded-none text-[11px] font-medium text-ink-muted hover:text-ink transition-colors cursor-pointer whitespace-nowrap"
                     >
-                      Collapse All
+                      Collapse all
                     </button>
                   </div>
                 </div>

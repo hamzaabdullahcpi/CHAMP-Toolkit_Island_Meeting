@@ -1113,13 +1113,19 @@ export const actionsData = [
         "overview": "Locally anchored climate investment structures connect climate portfolios with suitable financing and implementation arrangements available at the city level. Climate portfolios often include investments with different owners, risks, returns and levels of readiness. A single financing source or vehicle may not be suitable for the entire portfolio. Local investment structures help organise these investments and match them with appropriate sources of finance. These structures can take the form of trust funds, SPVs, green bonds programs or other financing vehicles depending on local market conditions and capacities.\n",
         "whatItIs": "\n",
         "whyItIsNeeded": "\n",
+        "potentialNationalLead": [
+          "Finance Ministry",
+          "Urban / Local Government Ministry"
+        ],
         "keyActors": [
-          "National Government",
-          "Subnational Government",
-          "Development Finance Institutions",
-          "Multilateral Development Banks",
-          "Commercial Banks",
-          "Special Purpose Vehicles"
+          "Municipal / Subnational Finance Department",
+          "National Development Bank",
+          "MDB",
+          "DFI",
+          "Climate Fund",
+          "Commercial Bank",
+          "Institutional Investor",
+          "Fund Manager"
         ],
         "transferability": [
           "Tailor the financing structure to the fiscal system, borrowing regulations, tax base and market maturity: Where decentralization and private-sector depth are stronger, local trust funds or similar vehicles may work well; where responsibilities are devolved but fiscal space is limited, devolved funds may be a better fit; and in more unitary systems, country- or donor-led funds, like the LoCAL program, may need to be channelled through existing fiscal transfer mechanisms. In context where local governments have creditworthiness, a green bond framework like Lund could be utilized.",
@@ -1257,13 +1263,19 @@ export const actionsData = [
         "overview": "Innovative financial mechanisms help mobilize and scale climate investment by improving financing conditions and investor confidence. They help address barriers arising from high or uncertain risks, costs or expected returns. These can include catalytic capital, guarantees, concessional finance, financial aggregation, insurance etc. They can be used within blended finance structures to incentivize private investment. When linked to strong governance, investment portfolios and local investment structures, they can help governments use limited public resources to mobilize larger pools of capital.\n",
         "whatItIs": "\n",
         "whyItIsNeeded": "\n",
+        "potentialNationalLead": [
+          "Finance Ministry"
+        ],
         "keyActors": [
-          "National Development Banks",
-          "Development Finance Institutions",
-          "National Government",
-          "Subnational Government",
-          "Private Investors",
-          "Insurers"
+          "Municipal / Subnational Finance Department",
+          "National Development Bank",
+          "MDB",
+          "DFI",
+          "Climate Fund",
+          "Commercial Bank",
+          "Institutional Investor",
+          "Guarantee Provider",
+          "Insurer"
         ],
         "transferability": [
           "Match the financial mechanisms and tools to legal and regulatory conditions, capacities of multilevel actors, risk-return profiles of projects and market maturity. Catalytic funding could be most effective in low-capacity contexts that require initial upfront capital to demonstrate implementation capabilities to crowd in additional finance. Insurance and risk pooling are most transferable where climate-disaster exposure is the main challenge to fiscal resilience; local-currency guarantees fit contexts where the main constraints include currency risk and perceived financial strength of a local government. Pooled borrowing works where municipalities want lower-cost market access or have small ticket sizes and limited creditworthiness to access the market individually.",
@@ -1404,13 +1416,19 @@ export const actionsData = [
         "overview": "A collaborative portfolio implementation environment is a place-based setup where public, private and civic actors jointly implement, test and adapt solutions. These environments align finance, procurement, governance, organisational cultures and technologies around a common climate mission. They help address barriers that individual projects or portfolios cannot resolve alone by enabling actors to jointly deliver, learn and adapt. This can generate evidence, partnerships and institutional changes needed to move successful interventions towards investment and scale.\n",
         "whatItIs": "\n",
         "whyItIsNeeded": "\n",
+        "potentialNationalLead": [
+          "Urban / Local Government Ministry"
+        ],
         "keyActors": [
-          "Subnational Government",
-          "National Government",
-          "Utilities",
-          "Civil Society",
-          "Private Investors",
-          "Infrastructure Developers"
+          "Municipal / Subnational Sector Department",
+          "Municipal / Subnational Utility",
+          "Municipal / Subnational Implementation Agency",
+          "PPF",
+          "Technical Assistance Provider",
+          "Private Developer",
+          "Solution Provider",
+          "Academia",
+          "Community"
         ],
         "transferability": [
           "Transfer the core functions of implementation environments, while keeping the institutional form adaptable. The transferable core is a defined local system or place, a shared mission, system mapping, a portfolio approach, continuous orchestration, learning and pathways to finance and scale. The institution leading these functions should reflect the governance context.",
@@ -1518,12 +1536,19 @@ export const actionsData = [
         "overview": "Aggregation can help to coordinate purchasing demand across public and private buyers for climate-aligned goods, services and infrastructure. Buyers can coordinate demand while retaining separate budgets and contracts or combine purchasing through a single tender. National governments can support aggregation across cities and align purchasing demand with national climate and industrial priorities. Fragmented purchasing limits predictable market signals and can discourage suppliers from investing in low-carbon production. To this end, aggregations can helps to create larger and more predictable demand, giving suppliers greater confidence to invest and expand production. It can also reduce costs and help governments scale climate solutions across multiple cities.\n",
         "whatItIs": "\n",
         "whyItIsNeeded": "\n",
+        "potentialNationalLead": [
+          "Procurement Authority",
+          "Industry Ministry"
+        ],
         "keyActors": [
-          "Procurement Actors",
-          "National Government",
-          "Subnational Government",
-          "Infrastructure Developers",
-          "Private Investors"
+          "Municipal / Subnational Procurement Department",
+          "Municipal / Subnational Sector Department",
+          "Municipal / Subnational Utility",
+          "Manufacturer",
+          "Supplier",
+          "Private Buyer",
+          "Industry Association",
+          "Commercial Bank"
         ],
         "transferability": [
           "Use the procurement model that fits the capacity and governance context. This may be a trust fund with built-in governance, a nationally coordinated tender, or a city-level mandate; the transferable core is the combination of political mandate, technical support, and clear criteria for aggregating demand.",

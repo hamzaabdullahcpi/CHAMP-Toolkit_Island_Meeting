@@ -51,6 +51,7 @@ export interface Pathway {
   overview?: string;
   whatItIs?: string;
   whyItIsNeeded?: string;
+  potentialNationalLead?: string[];
   keyActors?: string[];
   transferabilityTitle?: string;
   transferabilityPreamble?: string;
@@ -861,6 +862,11 @@ function parseAirtableRecords(
         const whatItIs = p.fields["What it is"] || "";
         const whyItIsNeeded = p.fields["Why it is needed"] || "";
         const orderNum = Number(p.fields["Order"]) || 0;
+        const potentialNationalLead = Array.isArray(p.fields["Potential National Lead"])
+          ? p.fields["Potential National Lead"]
+          : p.fields["Potential National Lead"]
+          ? [p.fields["Potential National Lead"]]
+          : undefined;
         const keyActors = Array.isArray(p.fields["Key Actors"])
           ? p.fields["Key Actors"]
           : p.fields["Key Actors"]
@@ -990,6 +996,7 @@ function parseAirtableRecords(
           overview: pathwayDesc,
           whatItIs,
           whyItIsNeeded,
+          potentialNationalLead,
           keyActors,
           transferabilityTitle,
           transferabilityPreamble,

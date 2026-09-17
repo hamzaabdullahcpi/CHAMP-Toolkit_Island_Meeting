@@ -11,7 +11,8 @@ import {
   Network, 
   Sparkles,
   ArrowUpRight,
-  ArrowRight
+  ArrowRight,
+  HelpCircle
 } from 'lucide-react';
 import { getActionTheme, ActionTheme } from '../utils/actionThemes';
 import { enhanceAction5Examples, getAction5Connection } from '../data/action5ResourceConnections';
@@ -79,33 +80,110 @@ function CollapsibleList({
   );
 }
 
-function TargetActors({ actors, title = "Target Actors", theme }: { actors: string[], title?: string, theme?: ActionTheme }) {
-  if (!actors || actors.length === 0) return null;
-  return (
-    <div className="p-6 bg-paper border border-line rounded-none">
-      <h4 className="text-[12px] font-bold text-ink-muted uppercase tracking-widest mb-3.5">
-        {title}
-      </h4>
-      <div className="flex flex-wrap gap-2">
-        {actors.map((actor, idx) => (
-          <span 
-            key={idx} 
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-line text-[12.5px] font-medium text-ink shadow-2xs rounded-none transition-colors"
-            onMouseEnter={(e) => {
-              if (theme) e.currentTarget.style.borderColor = theme.borderMedium;
-            }}
-            onMouseLeave={(e) => {
-              if (theme) e.currentTarget.style.borderColor = '';
-            }}
-          >
-            <span 
-              className="w-1.5 h-1.5 rounded-none shrink-0" 
-              style={{ backgroundColor: theme?.hex || 'var(--accent, #008080)' }}
-            />
-            {actor}
+function PathwayActorMapping({
+  potentialNationalLead,
+  keyActors,
+  theme,
+}: {
+  potentialNationalLead?: string[];
+  keyActors?: string[];
+  theme?: ActionTheme;
+}) {
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+
+  const leads = Array.isArray(potentialNationalLead) ? potentialNationalLead.filter(Boolean) : [];
+  const rawActors = Array.isArray(keyActors) ? keyActors.filter(Boolean) : [];
+  // Filter out any lead that might already appear in keyActors to avoid duplicate display
+  const filteredActors = rawActors.filter((actor) => !leads.includes(actor));
+
+  if (leads.length === 0 && filteredActors.length === 0) return null;
+
+  const tooltipText =
+    "This refers to the relevant ministry for the pathway, such as transport, energy, housing, water or waste.";
+
+  const renderChip = (actor: string, isLead: boolean) => {
+    const isSectorMinistry =
+      actor.trim().toLowerCase() === "sector ministry" ||
+      actor.trim().toLowerCase() === "relevant sector ministry";
+    const tooltipId = `${isLead ? "lead" : "actor"}-${actor}`;
+    const showTooltip = activeTooltip === tooltipId;
+
+    return (
+      <span
+        key={actor}
+        className={`relative inline-flex items-center gap-1.5 px-2.5 py-1 text-[12px] rounded-none transition-colors select-none ${
+          isLead
+            ? "font-medium text-ink bg-surface border border-line shadow-2xs"
+            : "font-normal text-ink-muted bg-surface/70 border border-line/80 hover:text-ink hover:border-line shadow-2xs"
+        }`}
+        style={
+          isLead && theme
+            ? { borderColor: theme.borderMedium }
+            : undefined
+        }
+      >
+        {isLead && (
+          <span
+            className="w-1.5 h-1.5 shrink-0 rounded-none"
+            style={{ backgroundColor: theme?.hex || "#008080" }}
+          />
+        )}
+        <span>{actor}</span>
+        {isSectorMinistry && (
+          <span className="relative inline-flex items-center">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveTooltip(showTooltip ? null : tooltipId);
+              }}
+              onMouseEnter={() => setActiveTooltip(tooltipId)}
+              onMouseLeave={() => setActiveTooltip(null)}
+              onFocus={() => setActiveTooltip(tooltipId)}
+              onBlur={() => setActiveTooltip(null)}
+              className="ml-0.5 text-ink-muted hover:text-ink focus:outline-none cursor-help p-0.5"
+              aria-label="More information about Sector Ministry"
+            >
+              <HelpCircle size={12} className="stroke-[1.75]" />
+            </button>
+            {showTooltip && (
+              <span
+                role="tooltip"
+                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-40 w-64 p-2.5 bg-ink text-paper text-[11px] leading-relaxed rounded-none shadow-lg pointer-events-none font-normal normal-case"
+              >
+                {tooltipText}
+                <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-ink" />
+              </span>
+            )}
           </span>
-        ))}
-      </div>
+        )}
+      </span>
+    );
+  };
+
+  return (
+    <div className="pt-5 pb-1 border-t border-line space-y-3">
+      {leads.length > 0 && (
+        <div className="space-y-1.5">
+          <h5 className="text-[11px] font-bold text-ink-muted uppercase tracking-wider">
+            Potential national lead
+          </h5>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {leads.map((lead) => renderChip(lead, true))}
+          </div>
+        </div>
+      )}
+
+      {filteredActors.length > 0 && (
+        <div className="space-y-1.5">
+          <h5 className="text-[11px] font-bold text-ink-muted uppercase tracking-wider">
+            Key actors
+          </h5>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {filteredActors.map((actor) => renderChip(actor, false))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -837,6 +915,13 @@ function PathwayCard({
           </div>
         )}
 
+        {/* Actor Mapping: Potential National Lead & Key Actors */}
+        <PathwayActorMapping
+          potentialNationalLead={pathway.potentialNationalLead}
+          keyActors={pathway.keyActors}
+          theme={theme}
+        />
+
         {/* 2. Implementation Guidance for National Governments */}
         {pathway.implementationGuidance && pathway.implementationGuidance.length > 0 && (
           <div className="pt-8 border-t border-line space-y-5">
@@ -889,14 +974,7 @@ function PathwayCard({
           </div>
         )}
 
-        {/* 4. Target Actors */}
-        {pathway.keyActors && pathway.keyActors.length > 0 && (
-          <div className="pt-8 border-t border-line">
-            <TargetActors actors={pathway.keyActors} title="Target Actors" theme={theme} />
-          </div>
-        )}
-
-        {/* 5. Transferability Considerations */}
+        {/* 4. Transferability Considerations */}
         {pathway.transferability && pathway.transferability.length > 0 && (
           <div className="pt-8 border-t border-line space-y-3">
             <CollapsibleList 
