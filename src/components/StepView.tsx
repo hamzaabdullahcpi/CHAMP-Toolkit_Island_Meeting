@@ -751,7 +751,12 @@ function PathwayCard({
 
   const isAction5 = Number(actionId) === 5;
   const rawExamples = pathway.illustrativeExamples || [];
-  const displayExamples = isAction5 ? enhanceAction5Examples(pathway.title, rawExamples) : rawExamples;
+  const enhancedExamples = isAction5 ? enhanceAction5Examples(pathway.title, rawExamples) : rawExamples;
+  const displayExamples = [...enhancedExamples].sort((a: any, b: any) => {
+    const orderA = typeof a.order === 'number' && !isNaN(a.order) ? a.order : 9999;
+    const orderB = typeof b.order === 'number' && !isNaN(b.order) ? b.order : 9999;
+    return orderA - orderB;
+  });
 
   const exampleConceptBoxes = (pathway.conceptBoxes || []).filter((b: any) => 
     !b.section || b.section.toLowerCase().includes('example') || b.section.toLowerCase().includes('illustrative')

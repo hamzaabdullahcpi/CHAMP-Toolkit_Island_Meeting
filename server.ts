@@ -182,7 +182,18 @@ async function startServer() {
         const myPathways = pathwaysRecords.filter((p: any) => {
             const linkedAction = p.fields["Belongs to Action"];
             return linkedAction && linkedAction.includes(a.id);
-        }).sort((x: any, y: any) => (Number(x.fields["Order"]) || 99) - (Number(y.fields["Order"]) || 99))
+        }).sort((x: any, y: any) => {
+            const titleX = sanitizeText(x.fields["Pathway Title"] || x.fields["Title"] || "");
+            const titleY = sanitizeText(y.fields["Pathway Title"] || y.fields["Title"] || "");
+            const matchX = titleX.match(/^(\d+)\.(\d+)/);
+            const matchY = titleY.match(/^(\d+)\.(\d+)/);
+            if (matchX && matchY) {
+              const numX = Number(matchX[1]) * 100 + Number(matchX[2]);
+              const numY = Number(matchY[1]) * 100 + Number(matchY[2]);
+              if (numX !== numY) return numX - numY;
+            }
+            return (Number(x.fields["Order"]) || 99) - (Number(y.fields["Order"]) || 99);
+        })
         .map((p: any) => {
             const pathwayTitle = sanitizeText(p.fields["Pathway Title"] || "Untitled Pathway");
             const pathwayDesc = sanitizeText(p.fields["Overview"] || "");
@@ -218,15 +229,38 @@ async function startServer() {
                     link: (sub.fields["Learn More URL"] || "").trim()
                 }));
 
+                const connectionLine = sanitizeText(
+                    e.fields["Why see this / When to use this"] ||
+                    e.fields["When to use this / Why see this"] ||
+                    e.fields["Connection Line"] ||
+                    e.fields["Contextual Guidance"] ||
+                    e.fields["Guidance Note"] ||
+                    ""
+                );
+
+                const rawOrder = 
+                    e.fields["Order"] ??
+                    e.fields["Resource Order"] ??
+                    e.fields["Sequence"] ??
+                    e.fields["Display Order"] ??
+                    e.fields["Sort Order"] ??
+                    e.fields["Position"] ??
+                    e.fields["Number"];
+                const order = rawOrder !== undefined && rawOrder !== null && rawOrder !== "" && !isNaN(Number(rawOrder))
+                    ? Number(rawOrder)
+                    : undefined;
+
                 return {
                     title: sanitizeText(e.fields["Example Title"] || e.fields["Title"] || "Untitled Example"),
                     type: sanitizeText(e.fields["Type"] || e.fields["Resource Type"] || "Illustrative Example"),
                     excerpt: sanitizeText(e.fields["Excerpt"] || ""),
                     fullText: sanitizeText(e.fields["Full Text / Concept Explanation"] || e.fields["Full Text"] || ""),
                     link: (e.fields["Learn More URL"] || "").trim(),
+                    connectionLine: connectionLine || undefined,
+                    order,
                     subExamples: mySubExamples.length > 0 ? mySubExamples : undefined
                 };
-            });
+            }).sort((a: any, b: any) => (a.order ?? 9999) - (b.order ?? 9999));
 
             // Find concept boxes linked to this pathway
             const myConceptBoxes = conceptBoxRecords.filter((cb: any) => {

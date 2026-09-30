@@ -66,6 +66,7 @@ Defines illustrative examples and practical tools associated with each pathway.
 | `Example Title` | Single line text | **Required.** Title of the case example or tool (e.g., `Sweden Viable Cities Platform`, `City Climate Finance Gap Fund`). |
 | `Belongs to Pathway` | Linked record | Links to parent record in `Pathways`. |
 | `Type` | Single select / Text | `Illustrative Example` or `Tool`. |
+| `Order` | Number | **Display / Sequence Order** within the pathway (e.g. `1`, `2`, `3`...). Mark a number to control the display sequence of tools and illustrative examples (e.g. set `1` to appear first). |
 | `Why see this / When to use this` | Long text / Single line | **Contextual guidance note.**<br>• For Tools: `When to use this: Use when identifying...`<br>• For Examples: `Why see this: See how locally defined climate investments...`<br>*(If left blank, the frontend automatically falls back to clean placeholder text until updated).* |
 | `Excerpt` | Long text | Brief 1–2 sentence summary displayed on the card. |
 | `Full Text / Concept Explanation` | Long text (Markdown) | Comprehensive case study text displayed in the detail modal. |

@@ -18,6 +18,7 @@ export interface IllustrativeExample {
   fullText?: string;
   link?: string;
   connectionLine?: string;
+  order?: number;
   subExamples?: SubExample[];
 }
 
@@ -855,7 +856,18 @@ function parseAirtableRecords(
         const linkedAction = p.fields["Belongs to Action"];
         return linkedAction && linkedAction.includes(a.id);
       })
-      .sort((x: any, y: any) => (Number(x.fields["Order"]) || 99) - (Number(y.fields["Order"]) || 99))
+      .sort((x: any, y: any) => {
+        const titleX = String(x.fields["Pathway Title"] || x.fields["Title"] || "");
+        const titleY = String(y.fields["Pathway Title"] || y.fields["Title"] || "");
+        const matchX = titleX.match(/^(\d+)\.(\d+)/);
+        const matchY = titleY.match(/^(\d+)\.(\d+)/);
+        if (matchX && matchY) {
+          const numX = Number(matchX[1]) * 100 + Number(matchX[2]);
+          const numY = Number(matchY[1]) * 100 + Number(matchY[2]);
+          if (numX !== numY) return numX - numY;
+        }
+        return (Number(x.fields["Order"]) || 99) - (Number(y.fields["Order"]) || 99);
+      })
       .map((p: any) => {
         const pathwayTitle = p.fields["Pathway Title"] || "Untitled Pathway";
         const pathwayDesc = p.fields["Overview"] || "";
@@ -949,6 +961,18 @@ function parseAirtableRecords(
               e.fields["Guidance Note"] ||
               "";
 
+            const rawOrder = 
+              e.fields["Order"] ??
+              e.fields["Resource Order"] ??
+              e.fields["Sequence"] ??
+              e.fields["Display Order"] ??
+              e.fields["Sort Order"] ??
+              e.fields["Position"] ??
+              e.fields["Number"];
+            const order = rawOrder !== undefined && rawOrder !== null && rawOrder !== "" && !isNaN(Number(rawOrder))
+              ? Number(rawOrder)
+              : undefined;
+
             return {
               title: e.fields["Example Title"] || e.fields["Title"] || "Untitled Example",
               type: e.fields["Type"] || e.fields["Resource Type"] || "Illustrative Example",
@@ -956,9 +980,11 @@ function parseAirtableRecords(
               fullText: e.fields["Full Text / Concept Explanation"] || e.fields["Full Text"] || "",
               link: e.fields["Learn More URL"] || "",
               connectionLine: connectionLine ? String(connectionLine).trim() : undefined,
+              order,
               subExamples: mySubExamples.length > 0 ? mySubExamples : undefined,
             };
-          });
+          })
+          .sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999));
 
         const myConceptBoxes: ConceptBox[] = conceptBoxRecords
           .filter((cb: any) => {

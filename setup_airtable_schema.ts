@@ -12,7 +12,8 @@ async function setupAirtableSchemaAndOrders() {
   const schemaData = await schemaRes.json();
   
   const pathwaysTable = schemaData.tables?.find((t: any) => t.name === 'Pathways');
-  const resourcesTable = schemaData.tables?.find((t: any) => t.name === 'Further Resources' || t.name === 'Resources');
+  const keyResourcesTable = schemaData.tables?.find((t: any) => t.name === 'Key Resources' || t.name === 'Illustrative Examples' || t.name === 'Examples');
+  const resourcesTable = schemaData.tables?.find((t: any) => t.name === 'Further Resources' || t.name === 'Resources' || t.name === 'Additional Resources');
 
   if (!pathwaysTable) {
     console.error("Pathways table not found!");
@@ -43,6 +44,34 @@ async function setupAirtableSchemaAndOrders() {
     }
   } else {
     console.log("Pathways table already has 'Order' field.");
+  }
+
+  // 2. Add Order column to Key Resources table (Illustrative Examples & Tools) if not present
+  if (keyResourcesTable) {
+    const keyResOrderField = keyResourcesTable.fields?.find((f: any) => f.name === 'Order');
+    if (!keyResOrderField) {
+      console.log("Adding 'Order' field to Key Resources table...");
+      const addKeyResFieldRes = await fetch(`https://api.airtable.com/v0/meta/bases/${baseId}/tables/${keyResourcesTable.id}/fields`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${pat}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: "Order",
+          type: "number",
+          options: { precision: 0 },
+          description: "Display order / sequence number (1, 2, 3...) for tools and illustrative examples under each pathway"
+        })
+      });
+      if (addKeyResFieldRes.ok) {
+        console.log("✓ Added 'Order' field to Key Resources table!");
+      } else {
+        console.error("Failed to add Order to Key Resources:", await addKeyResFieldRes.json());
+      }
+    } else {
+      console.log("Key Resources table already has 'Order' field.");
+    }
   }
 
   // 2. Enhance Further Resources table schema
